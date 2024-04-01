@@ -494,28 +494,29 @@ start_fifo()
 #==============================================================================
 get_pcs_status()
 {
-    echo "1"
-    #local eth0_pcs_lock=0
-    #local eth1_pcs_lock=0
-
-    # Fetch the status of Ethernet port 0
-    #local eth0_status=$(read_reg $((0x10000 + $OFFS_ETH_STAT_RX)))
     
-    # Fetch the status of Ethernet port 1
-    #local eth1_status=$(read_reg $((0x20000 + $OFFS_ETH_STAT_RX)))
+    local eth0_pcs_lock=0
+    local eth1_pcs_lock=0
 
-    # Check the STAT_RX register to see if we have PCS lock
-    #test $eth0_status -eq 3 && eth0_pcs_lock=1
-    #test $eth1_status -eq 3 && eth1_pcs_lock=1
+    # These two bits contain the PCS lock status of the QSFP ports
+    local lock0_bit=$((1<< 0))
+    local lock1_bit=$((1<<16))
+
+    # Read the status register
+    local eth_status=$(read_reg 0x500)
+
+    # Figure out if the "PCS Lock Status" bits are set
+    test $((eth_status & lock0_bit)) -ne 0 && eth0_pcs_lock=1
+    test $((eth_status & lock1_bit)) -ne 0 && eth1_pcs_lock=1
 
     # Display the requested status
-    #if [ "$1" == "0" ]; then
-    #    echo $eth0_pcs_lock
-    #elif [ "$1" == "1" ]; then
-    #    echo $eth1_pcs_lock
-    #else
-    #    echo $((eth0_pcs_lock & eth1_pcs_lock))
-    #fi
+    if [ "$1" == "0" ]; then
+        echo $eth0_pcs_lock
+    elif [ "$1" == "1" ]; then
+        echo $eth1_pcs_lock
+    else
+       echo $((eth0_pcs_lock & eth1_pcs_lock))
+    fi
 }
 #==============================================================================
 

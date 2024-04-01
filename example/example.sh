@@ -41,6 +41,14 @@ if [ $need_bitstream -eq 1 ]; then
     echo "Bitstream loaded"
 fi
 
+# Ensure that we have PCS lock on both QSFP ports
+if [ $(get_pcs_status) -eq 0 ]; then
+    echo "Status of PCS lock on QSFP_0: " $(get_pcs_status 0)
+    echo "Status of PCS lock on QSFP_1: " $(get_pcs_status 1)
+    echo "Are both QSFP cables connected?  Exiting..."
+    exit 1
+fi
+
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # <><><><>  If you are using this script as a template, everything  <><><><>

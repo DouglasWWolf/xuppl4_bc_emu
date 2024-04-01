@@ -1954,26 +1954,15 @@ Resolution: If [get_&lt;value>] was used to populate the object, check to make s
     <MsgAttr Name="RuleType" Val="0"/>
     <MsgAttr Name="Limit" Val="-1"/>
     <MsgAttr Name="NewSeverity" Val="ANY"/>
-    <MsgAttr Name="Id" Val="Vivado 12-1790"/>
+    <MsgAttr Name="Id" Val="[BD 41-1306]"/>
     <MsgAttr Name="Severity" Val="ANY"/>
     <MsgAttr Name="ShowRule" Val="1"/>
-    <MsgAttr Name="RuleSource" Val="8"/>
+    <MsgAttr Name="RuleSource" Val="2"/>
     <MsgAttr Name="StringIsRegExp" Val="0"/>
     <MsgAttr Name="RuleId" Val="12"/>
     <MsgAttr Name="Note" Val=""/>
     <MsgAttr Name="Author" Val=""/>
     <MsgAttr Name="CreatedTimestamp" Val=""/>
-    <MsgAttr Name="StringsToMatch" Val="CRITICAL WARNING: [Vivado 12-1790] Evaluation License Warning: This design contains one or more IP cores that use separately licensed features. If the design has been configured to make use of evaluation features, please note that these features will cease to function after a certain period of time. Please consult the core datasheet to determine whether the core which you have configured will be affected. Evaluation features should NOT be used in production systems.
-
-Evaluation cores found in this design:
-    IP core &apos;top_level_cmac_usplus_0_1&apos; (cmac_usplus_core) was generated with multiple features:
-        IP feature &apos;cmac_an_lt@2020.05&apos; was enabled using a design_linking license.
-        IP feature &apos;cmac_usplus@2020.05&apos; was enabled using a bought license.
-    IP core &apos;top_level_cmac_usplus_0_0&apos; (cmac_usplus_core) was generated with multiple features:
-        IP feature &apos;cmac_an_lt@2020.05&apos; was enabled using a design_linking license.
-        IP feature &apos;cmac_usplus@2020.05&apos; was enabled using a bought license.
-
-Resolution: If a new IP Core license was added, in order for the new license to be picked up, the current netlist needs to be updated by resetting and re-generating the IP output products before bitstream generation."/>
   </MsgRule>
   <MsgRule>
     <MsgAttr Name="RuleType" Val="0"/>
