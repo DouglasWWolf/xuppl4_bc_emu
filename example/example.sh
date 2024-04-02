@@ -57,8 +57,14 @@ fi
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
+# Tell the world which version we are
+echo "bc_emu RTL version" $(get_rtl_version)
+
 # Make sure the system is idle
 idle_system
+
+# This should be "set_continuous_mode" or "set_oneshot_mode"
+set_continuous_mode
 
 # This is the location in host RAM where the ABM will be stored
 set_abm_addr 0x1_0000_0000

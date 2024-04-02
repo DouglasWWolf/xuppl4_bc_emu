@@ -36,9 +36,17 @@ test $(is_bitstream_loaded) -eq 0 && need_bitstream=1
 # If we need to load the bitstream into the FPGA, make it so
 if [ $need_bitstream -eq 1 ]; then
     echo "Loading bitstream..."
-    load_bitstream sidewinder_bc_emu.bit 10.11.12.2:3121
+    load_bitstream indy_bc_emu.bit 10.11.12.2:3121
     test $? -eq 0 || exit 1
     echo "Bitstream loaded"
+fi
+
+# Ensure that we have PCS lock on both QSFP ports
+if [ $(get_pcs_status) -eq 0 ]; then
+    echo "Status of PCS lock on QSFP_0: " $(get_pcs_status 0)
+    echo "Status of PCS lock on QSFP_1: " $(get_pcs_status 1)
+    echo "Are both QSFP cables connected?  Exiting..."
+    exit 1
 fi
 
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -52,14 +60,17 @@ fi
 # Make sure the system is idle
 idle_system
 
+# This is the location in host RAM where the ABM will be stored
+set_abm_addr 0x1_0000_0000
+
 # Set the output data rate in bytes-per-microsecond. 
 set_rate_limit 12288
 
-# Our packets are 1K each
-set_packet_size 1024 
+# Our packets are 4K each
+set_packet_size 4096
 
-# A frame is 4K bytes
-set_frame_size 4096
+# A frame is 4M bytes
+set_frame_size 16384
 
 # Set the number of packets in a packet-burst on each QSFP
 set_ping_pong_group 1
@@ -94,29 +105,14 @@ set_metadata 15 0x61626364
 # Make sure both input FIFOs start out empty
 clear_fifo both
 
-# Load frame data into the first FIFO
-load_fifo 1 frame_data_1.csv
+
+load_fifo_imm 1 0x11223344
+load_fifo_imm 1 0x55667788
 
 # Start generating frames from the data we just loaded
 start_fifo 1
-echo "Generating bright cycle frames from FIFO #1"
 
-# While frames are generating from FIFO #1, load FIFO #2 with frame data
-load_fifo 2 frame_data_2.csv
-
-# Let FIFO #1 generate bright cycle frames for a few seconds
-sleep 5
-
-# Switch to generating frames from FIFO 2
-start_fifo 2
-
-# Just for fun, lets wait for FIFO 2 to become active
-echo "Waiting for FIFO #2 to start"
-wait_active_fifo 2
-echo "Generating bright cycle frames from FIFO #2"
-
-# Let FIFO #2 generate bright cycle frames for a few seconds
-sleep 5
+sleep 60
 
 # That's the end of our demo!
 idle_system

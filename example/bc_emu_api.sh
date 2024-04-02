@@ -1,9 +1,14 @@
 #==============================================================================
-#  Date      Vers  Who  Description
+#  Date      Vers   Who  Description
 # -----------------------------------------------------------------------------
-# 06-Dec-23  1.00  DWW  Initial Creation
+# 06-Dec-23  1.0.0  DWW  Initial Creation
+#
+# 02-Apr-24  1.2.0  DWW  Added "get_rtl_version"
+#                        Added "set_continuous_mode"
+#                        Added "set_oneshot_mode"
+#                        Fixed "get_pcs_status"
 #==============================================================================
-BC_EMU_API_VERSION=1.00
+BC_EMU_API_VERSION=1.2.0
 
 #==============================================================================
 # AXI register definitions
@@ -15,8 +20,8 @@ BC_EMU_API_VERSION=1.00
        REG_LOAD_F1=0x100C
         REG_COUNT1=0x100C
          REG_START=0x1010
+     REG_CONT_MODE=0x1014
          REG_VALUE=0x1040
-
 
 MC_BASE=0x2000
        REG_RFD_ADDR_H=$((MC_BASE +  0* 4))
@@ -521,4 +526,37 @@ get_pcs_status()
 #==============================================================================
 
 
+#==============================================================================
+# Displays the version of the RTL bitstream
+#==============================================================================
+get_rtl_version()
+{
+    local major=$(read_reg 0)
+    local minor=$(read_reg 4)
+    local revis=$(read_reg 8)
+    echo ${major}.${minor}.${revis}
+}
+#==============================================================================
 
+
+
+#==============================================================================
+# When a FIFO becomes active, this will cause frames to be generated 
+# continuously until they are stopped via "idle_system"
+#==============================================================================
+set_continuous_mode
+{
+    pcireg $REG_CONT_MODE 1
+}
+#==============================================================================
+
+
+#==============================================================================
+# When a FIFO becomes active, this will cause frames to be generated 
+# until all entries from the FIFO have been used, then frame generation stops
+#==============================================================================
+set_oneshot_mode
+{
+    pcireg $REG_CONT_MODE 0
+}
+#==============================================================================

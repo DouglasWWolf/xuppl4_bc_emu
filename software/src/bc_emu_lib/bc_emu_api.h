@@ -38,10 +38,11 @@ public:
 
     // Data-FIFO related registers
     static const uint32_t DF_BASE = 0x1000;
-    static const uint32_t REG_FIFO_CTL = DF_BASE + 1 * 4;
-    static const uint32_t REG_LOAD_F0  = DF_BASE + 2 * 4;
-    static const uint32_t REG_LOAD_F1  = DF_BASE + 3 * 4;
-    static const uint32_t REG_START    = DF_BASE + 4 * 4;
+    static const uint32_t REG_FIFO_CTL  = DF_BASE + 1 * 4;
+    static const uint32_t REG_LOAD_F0   = DF_BASE + 2 * 4;
+    static const uint32_t REG_LOAD_F1   = DF_BASE + 3 * 4;
+    static const uint32_t REG_START     = DF_BASE + 4 * 4;
+    static const uint32_t REG_CONT_MODE = DF_BASE + 5 * 4;
 
     // Registers related to mindy-core
     static const uint32_t MC_BASE = 0x2000;

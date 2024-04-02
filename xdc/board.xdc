@@ -54,7 +54,7 @@ set_property -dict {PACKAGE_PIN AT25  IOSTANDARD LVCMOS18  PULLTYPE PULLUP} [get
 #set_property -dict {PACKAGE_PIN AR25  IOSTANDARD LVCMOS18  PULLTYPE PULLUP} [get_ports {led_orange_l[3]}]
 
 
-s
+
 #
 # QSFP_0 clock, 322.265625 Mhz, bottom or left port
 #

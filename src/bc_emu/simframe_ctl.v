@@ -5,6 +5,8 @@
 //   Date     Who   Ver  Changes
 //====================================================================================
 // 25-Oct-23  DWW     1  Initial creation
+//
+// 02-Apr-24  DWW     1  Added "continuous mode / one-shot mode"
 //====================================================================================
 
 /*
@@ -86,6 +88,8 @@ module simframe_ctl #
         localparam BIT_F0_START = 0;    /*  R/W  */
         localparam BIT_F1_START = 1;    /*  R/W  */
 
+    localparam REG_CONT_MODE = 5;
+
     localparam REG_INPUT_00 = 16;       /*  R/W  */
     localparam REG_INPUT_01 = 17;       /*  R/W  */
     localparam REG_INPUT_02 = 18;       /*  R/W  */
@@ -141,7 +145,15 @@ module simframe_ctl #
     // An AXI slave is gauranteed a minimum of 128 bytes of address space
     // (128 bytes is 32 32-bit registers)
     localparam ADDR_MASK = 7'h7F;
-    
+
+
+    // If this is 1, patterns are output continuously, recycling the contents
+    // of the active FIFO over and over until a "stop" is issued.
+    //
+    // If this is 0, a pattern is output for every entry in the current FIFO, 
+    // then the currently active FIFO goes idle.
+    reg continuous_mode;
+
     // When one of these counters is non-zero, the associated FIFO is held in reset
     reg[3:0] f0_reset_counter, f1_reset_counter;
 
@@ -194,7 +206,7 @@ module simframe_ctl #
     //   fifo_load_strobe
     //   input_value
     //   fifo_on_deck   
-        //==========================================================================
+    //==========================================================================
     always @(posedge clk) begin
 
         // The reset counters for the two FIFOs always count down to zero
@@ -207,6 +219,10 @@ module simframe_ctl #
         // When one of these bit strobes high, "input_value" is loaded into a FIFO
         fifo_load_strobe <= 0;
 
+        // If there is an active FIFO and we're not going to continously output
+        // the contents of that FIFO, then we no longer have a FIFO "on deck"
+        if (active_fifo && ~continuous_mode) fifo_on_deck <= 0;
+
         // If we're in reset, initialize important registers
         if (resetn == 0) begin
             axi4_write_state <= 0;
@@ -215,6 +231,7 @@ module simframe_ctl #
             f0_count         <= 0;
             f1_count         <= 0;
             fifo_on_deck     <= 0;
+            continuous_mode  <= 0;
 
         // If we're not in reset, and a write-request has occured...        
         end else case (axi4_write_state)
@@ -290,6 +307,9 @@ module simframe_ctl #
                             fifo_on_deck <= 2;
                             new_job      <= (active_fifo == 0);                            
                         end
+
+                    REG_CONT_MODE:
+                        continuous_mode <= ashi_wdata[0];
                     
                     // Allow the user to store values into the "input" field
                     REG_INPUT_00:  input_value[ 0 * 32 +: 32] <= ashi_wdata;
@@ -349,6 +369,7 @@ module simframe_ctl #
                 REG_LOAD_F0:        ashi_rdata <= f0_count;
                 REG_LOAD_F1:        ashi_rdata <= f1_count;
                 REG_START:          ashi_rdata <= active_fifo;
+                REG_CONT_MODE:      ashi_rdata <= continuous_mode;
                 REG_INPUT_00:       ashi_rdata <= input_value[ 0 * 32 +: 32];
                 REG_INPUT_01:       ashi_rdata <= input_value[ 1 * 32 +: 32];
                 REG_INPUT_02:       ashi_rdata <= input_value[ 2 * 32 +: 32];
@@ -442,7 +463,7 @@ module simframe_ctl #
                             (active_fifo == 2) ? f1out_tdata : 8'h55;
 
     assign f0out_tready = (active_fifo == 1) ? AXIS_OUT_TREADY : 0;
-    assign f1out_tready = (active_fifo == 2) ? AXIS_OUT_TREADY : 0;                                
+    assign f1out_tready = (active_fifo == 2) ? AXIS_OUT_TREADY : 0;
     //====================================================================================
     always @(posedge clk) begin
 
@@ -453,7 +474,7 @@ module simframe_ctl #
         
         end else case(osm_state)
 
-            
+           
             0:  begin
                     AXIS_OUT_TVALID <= 0;
                     osm_state <= 1;
@@ -467,6 +488,13 @@ module simframe_ctl #
 
                     // If we're either waiting for a "start" or if we've output the entire FIFO already...
                     if (AXIS_OUT_TVALID == 0 || osm_counter == 1) begin
+
+                        // If we've output the entire FIFO, and we're not in 
+                        // "continuous mode", go idle.
+                        if (AXIS_OUT_TVALID & ~continuous_mode) begin
+                            active_fifo     <= 0;
+                            AXIS_OUT_TVALID <= 0;
+                        end
 
                         // If we've been told to start outputting from fifo_0...    
                         if (fifo_on_deck == 1) begin
