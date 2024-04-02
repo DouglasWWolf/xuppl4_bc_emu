@@ -544,7 +544,7 @@ get_rtl_version()
 # When a FIFO becomes active, this will cause frames to be generated 
 # continuously until they are stopped via "idle_system"
 #==============================================================================
-set_continuous_mode
+set_continuous_mode()
 {
     pcireg $REG_CONT_MODE 1
 }
@@ -555,7 +555,7 @@ set_continuous_mode
 # When a FIFO becomes active, this will cause frames to be generated 
 # until all entries from the FIFO have been used, then frame generation stops
 #==============================================================================
-set_oneshot_mode
+set_oneshot_mode()
 {
     pcireg $REG_CONT_MODE 0
 }
