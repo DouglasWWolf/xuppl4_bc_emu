@@ -105,6 +105,8 @@ set_metadata 15 0x61626364
 # Make sure both input FIFOs start out empty
 clear_fifo both
 
+# One pass through the FIFO 
+set_oneshot_mode
 
 load_fifo_imm 1 0x11223344
 load_fifo_imm 1 0x55667788
@@ -112,7 +114,6 @@ load_fifo_imm 1 0x55667788
 # Start generating frames from the data we just loaded
 start_fifo 1
 
-sleep 60
 
 # That's the end of our demo!
 idle_system

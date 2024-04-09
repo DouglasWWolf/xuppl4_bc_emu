@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-//Date        : Tue Apr  2 13:34:10 2024
+//Date        : Mon Apr  8 17:46:54 2024
 //Host        : simtool-5 running 64-bit Ubuntu 20.04.6 LTS
 //Command     : generate_target top_level_wrapper.bd
 //Design      : top_level_wrapper
@@ -32,8 +32,8 @@ module top_level_wrapper
     qsfp1_gt_gtx_n,
     qsfp1_gt_gtx_p);
   input init_clk;
-  output [1:0]led_green_l;
-  output [1:0]led_orange_l;
+  output [3:0]led_green_l;
+  output [3:0]led_orange_l;
   input [15:0]pcie_mgt_rxn;
   input [15:0]pcie_mgt_rxp;
   output [15:0]pcie_mgt_txn;
@@ -54,8 +54,8 @@ module top_level_wrapper
   output [3:0]qsfp1_gt_gtx_p;
 
   wire init_clk;
-  wire [1:0]led_green_l;
-  wire [1:0]led_orange_l;
+  wire [3:0]led_green_l;
+  wire [3:0]led_orange_l;
   wire [15:0]pcie_mgt_rxn;
   wire [15:0]pcie_mgt_rxp;
   wire [15:0]pcie_mgt_txn;

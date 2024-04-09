@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x7B99A5DA733553B5",
+      "boundary_crc": "0x6D11767165BD801E",
       "device": "xcvu3p-ffvc1517-2-e",
       "gen_directory": "../../../../project.gen/sources_1/bd/top_level",
       "name": "top_level",
@@ -73,8 +73,8 @@
       "data_mover_ctl": "",
       "data_mover": "",
       "smartconnect": "",
-      "status_leds": "",
-      "axi_revision": ""
+      "axi_revision": "",
+      "status_leds": ""
     },
     "interface_ports": {
       "pcie_refclk": {
@@ -176,12 +176,12 @@
       },
       "led_green_l": {
         "direction": "O",
-        "left": "1",
+        "left": "3",
         "right": "0"
       },
       "led_orange_l": {
         "direction": "O",
-        "left": "1",
+        "left": "3",
         "right": "0"
       }
     },
@@ -9993,35 +9993,6 @@
           }
         }
       },
-      "status_leds": {
-        "vlnv": "xilinx.com:module_ref:status_leds:1.0",
-        "xci_name": "top_level_status_leds_0_0",
-        "xci_path": "ip/top_level_status_leds_0_0/top_level_status_leds_0_0.xci",
-        "inst_hier_path": "status_leds",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "status_leds",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "qsfp0_up": {
-            "direction": "I"
-          },
-          "qsfp1_up": {
-            "direction": "I"
-          },
-          "led_green_l": {
-            "direction": "O",
-            "left": "1",
-            "right": "0"
-          },
-          "led_orange_l": {
-            "direction": "O",
-            "left": "1",
-            "right": "0"
-          }
-        }
-      },
       "axi_revision": {
         "vlnv": "xilinx.com:module_ref:axi_revision:1.0",
         "xci_name": "top_level_axi_revision_0_0",
@@ -10279,6 +10250,38 @@
             }
           }
         }
+      },
+      "status_leds": {
+        "vlnv": "xilinx.com:module_ref:status_leds:1.0",
+        "xci_name": "top_level_status_leds_0_0",
+        "xci_path": "ip/top_level_status_leds_0_0/top_level_status_leds_0_0.xci",
+        "inst_hier_path": "status_leds",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "status_leds",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "qsfp0_up": {
+            "direction": "I"
+          },
+          "qsfp1_up": {
+            "direction": "I"
+          },
+          "pcie_up": {
+            "direction": "I"
+          },
+          "led_green_l": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "led_orange_l": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -10446,16 +10449,22 @@
           "ethernet/init_clk"
         ]
       },
-      "source_200Mhz_clk": {
+      "pcie_axi_aclk": {
         "ports": [
           "pcie/axi_aclk",
-          "bright_cycle_emulator/clk",
-          "ethernet/axi_clk",
-          "abm_manager/clk",
-          "data_mover_ctl/clk",
-          "data_mover/clk",
           "smartconnect/aclk",
+          "data_mover/clk",
+          "abm_manager/clk",
+          "ethernet/axi_clk",
+          "bright_cycle_emulator/clk",
+          "data_mover_ctl/clk",
           "axi_revision/AXI_ACLK"
+        ]
+      },
+      "pcie_led_pcie_link_up": {
+        "ports": [
+          "pcie/led_pcie_link_up",
+          "status_leds/pcie_up"
         ]
       },
       "source_200Mhz_resetn": {
