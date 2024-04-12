@@ -73,8 +73,8 @@
       "data_mover_ctl": "",
       "data_mover": "",
       "smartconnect": "",
-      "axi_revision": "",
-      "status_leds": ""
+      "status_leds": "",
+      "axi_revision": ""
     },
     "interface_ports": {
       "pcie_refclk": {
@@ -154,7 +154,7 @@
         "direction": "I",
         "parameters": {
           "CLK_DOMAIN": {
-            "value": "top_level_init_clk_0",
+            "value": "top_level_init_clk",
             "value_src": "default"
           },
           "FREQ_HZ": {
@@ -5298,7 +5298,7 @@
                         "value_src": "user_prop"
                       },
                       "CLK_DOMAIN": {
-                        "value": "top_level_init_clk_0",
+                        "value": "top_level_init_clk",
                         "value_src": "default_prop"
                       }
                     }
@@ -5599,7 +5599,7 @@
                         "value_src": "user_prop"
                       },
                       "CLK_DOMAIN": {
-                        "value": "top_level_init_clk_0",
+                        "value": "top_level_init_clk",
                         "value_src": "default_prop"
                       }
                     }
@@ -9993,6 +9993,38 @@
           }
         }
       },
+      "status_leds": {
+        "vlnv": "xilinx.com:module_ref:status_leds:1.0",
+        "xci_name": "top_level_status_leds_0_0",
+        "xci_path": "ip/top_level_status_leds_0_0/top_level_status_leds_0_0.xci",
+        "inst_hier_path": "status_leds",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "status_leds",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "qsfp0_up": {
+            "direction": "I"
+          },
+          "qsfp1_up": {
+            "direction": "I"
+          },
+          "pcie_up": {
+            "direction": "I"
+          },
+          "led_green_l": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "led_orange_l": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          }
+        }
+      },
       "axi_revision": {
         "vlnv": "xilinx.com:module_ref:axi_revision:1.0",
         "xci_name": "top_level_axi_revision_0_0",
@@ -10248,38 +10280,6 @@
                 "value_src": "constant"
               }
             }
-          }
-        }
-      },
-      "status_leds": {
-        "vlnv": "xilinx.com:module_ref:status_leds:1.0",
-        "xci_name": "top_level_status_leds_0_0",
-        "xci_path": "ip/top_level_status_leds_0_0/top_level_status_leds_0_0.xci",
-        "inst_hier_path": "status_leds",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "status_leds",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "qsfp0_up": {
-            "direction": "I"
-          },
-          "qsfp1_up": {
-            "direction": "I"
-          },
-          "pcie_up": {
-            "direction": "I"
-          },
-          "led_green_l": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
-          },
-          "led_orange_l": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
           }
         }
       }
