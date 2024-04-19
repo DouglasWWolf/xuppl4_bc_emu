@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-//Date        : Fri Apr 12 02:26:52 2024
+//Date        : Thu Apr 18 23:47:28 2024
 //Host        : simtool-5 running 64-bit Ubuntu 20.04.6 LTS
 //Command     : generate_target top_level_wrapper.bd
 //Design      : top_level_wrapper
@@ -30,7 +30,9 @@ module top_level_wrapper
     qsfp1_gt_grx_n,
     qsfp1_gt_grx_p,
     qsfp1_gt_gtx_n,
-    qsfp1_gt_gtx_p);
+    qsfp1_gt_gtx_p,
+    qsfp_lp,
+    qsfp_rst_l);
   input init_clk;
   output [3:0]led_green_l;
   output [3:0]led_orange_l;
@@ -52,6 +54,8 @@ module top_level_wrapper
   input [3:0]qsfp1_gt_grx_p;
   output [3:0]qsfp1_gt_gtx_n;
   output [3:0]qsfp1_gt_gtx_p;
+  output [1:0]qsfp_lp;
+  output [1:0]qsfp_rst_l;
 
   wire init_clk;
   wire [3:0]led_green_l;
@@ -74,6 +78,8 @@ module top_level_wrapper
   wire [3:0]qsfp1_gt_grx_p;
   wire [3:0]qsfp1_gt_gtx_n;
   wire [3:0]qsfp1_gt_gtx_p;
+  wire [1:0]qsfp_lp;
+  wire [1:0]qsfp_rst_l;
 
   top_level top_level_i
        (.init_clk(init_clk),
@@ -96,5 +102,7 @@ module top_level_wrapper
         .qsfp1_gt_grx_n(qsfp1_gt_grx_n),
         .qsfp1_gt_grx_p(qsfp1_gt_grx_p),
         .qsfp1_gt_gtx_n(qsfp1_gt_gtx_n),
-        .qsfp1_gt_gtx_p(qsfp1_gt_gtx_p));
+        .qsfp1_gt_gtx_p(qsfp1_gt_gtx_p),
+        .qsfp_lp(qsfp_lp),
+        .qsfp_rst_l(qsfp_rst_l));
 endmodule
