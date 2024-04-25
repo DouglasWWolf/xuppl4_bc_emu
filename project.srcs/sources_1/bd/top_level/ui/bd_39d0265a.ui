@@ -37,11 +37,11 @@ preplace netloc ethernet_qsfp1_up 1 4 1 N 560
 preplace netloc init_clk_0_1 1 4 2 NJ 460 NJ
 preplace netloc pcie_axi_aclk 1 1 3 320 610 700 550 1020J
 preplace netloc pcie_led_pcie_link_up 1 1 4 300 570 720J 320 NJ 320 1380J
+preplace netloc qsfp_pins_qsfp_lp 1 5 1 N 780
+preplace netloc qsfp_pins_qsfp_rst_l 1 5 1 N 760
 preplace netloc source_200Mhz_resetn 1 1 3 340 590 680 530 1040J
 preplace netloc status_leds_led_green_l 1 5 1 N 520
 preplace netloc status_leds_led_orange_l 1 5 1 N 540
-preplace netloc qsfp_pins_qsfp_rst_l 1 5 1 N 760
-preplace netloc qsfp_pins_qsfp_lp 1 5 1 N 780
 preplace netloc S_AXI_ABM_1 1 2 1 NJ 670
 preplace netloc bright_cycle_emulator_AXIS_TX0 1 3 1 N 400
 preplace netloc bright_cycle_emulator_AXIS_TX1 1 3 1 N 380
