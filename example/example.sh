@@ -82,7 +82,7 @@ set_frame_size 0x40_0000
 set_ping_pong_group 1
 
 # Define the location and size of the frame-data ring buffer
-define_fd_ring 0x0000_0001_0000_0000 0x0000_0000_0400_0000
+define_fd_ring 0x1234_5678_9abc_def0 0x0000_0000_0400_0000
 
 # Define the location and size of the meta-command ring buffer
 define_md_ring 0x0000_0002_0000_0000 4096
