@@ -16,12 +16,17 @@
 //                          of each other
 //
 //                          No functional changes
+//
+// 28-Apr-2024  1.5.0  DWW  Added support for RTL_TYPE and RTL_SUBTYPE
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 4;
+localparam VERSION_MINOR = 5;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 26;
+localparam VERSION_DAY   = 28;
 localparam VERSION_MONTH = 4;
 localparam VERSION_YEAR  = 2024;
+
+localparam RTL_TYPE      = 912018;
+localparam RTL_SUBTYPE   = 0;

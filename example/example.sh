@@ -31,15 +31,16 @@ while (( "$#" )); do
 done
 
 # Is the bitstream not yet loaded?
-test $(is_bitstream_loaded) -eq 0 && need_bitstream=1
+test $(confirm_rtl) -eq 0 && need_bitstream=1
 
 # If we need to load the bitstream into the FPGA, make it so
 if [ $need_bitstream -eq 1 ]; then
     echo "Loading bitstream..."
-    source load_bitstream.sh 
+    source load_bitstream.sh
     test $? -eq 0 || exit 1
     echo "Bitstream loaded"
 fi
+
 
 # Ensure that we have PCS lock on both QSFP ports
 if [ $(get_pcs_status) -eq 0 ]; then

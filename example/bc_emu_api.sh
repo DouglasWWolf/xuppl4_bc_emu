@@ -9,8 +9,13 @@
 #                        Fixed "get_pcs_status"
 #
 # 11-Apr-24  1.3.0  DWW  Added "set_nshot_mode"
+#
+# 28-Apr-25  1.5.0  DWW  Now assuming fpga_utils is in the search path 
+#                        Added "confirm_rtl()" API
+#                        Removed "load_bitstream()" API
+#                        
 #==============================================================================
-BC_EMU_API_VERSION=1.3.0
+BC_EMU_API_VERSION=1.5.0
 
 #==============================================================================
 # AXI register definitions
@@ -85,25 +90,12 @@ lower32()
 
 
 #==============================================================================
-# This calls the local copy of pcireg
-#==============================================================================
-pcireg()
-{
-    ./pcireg $1 $2 $3 $4 $5 $6
-}
-#==============================================================================
-
-
-#==============================================================================
 # This reads a PCI register and displays its value in decimal
 #==============================================================================
 read_reg()
 {
     # Capture the value of the AXI register
-    text=$(pcireg $1)
-
-    # Extract just the first word of that text
-    text=($text)
+    text=$(pcireg -dec $1)
 
     # Convert the text into a number
     value=$((text))
@@ -114,26 +106,26 @@ read_reg()
 #==============================================================================
 
 
-#==============================================================================
-# Displays 1 if bitstream is loaded, otherwise displays "0"
-#==============================================================================
-is_bitstream_loaded()
-{
-    reg=$(read_reg $REG_LOAD_F0)
-    test $reg -ne $((0xFFFFFFFF)) && echo "1" || echo "0"
-}
-#==============================================================================
-
 
 #==============================================================================
-# Loads the bitstream into the FPGA
-#
-# Returns 0 on success, non-zero on failure
+# This confirms that we have the correct RTL loaded into the FPGA
 #==============================================================================
-load_bitstream()
+confirm_rtl()
 {
-    ./load_bitstream -hot_reset $1 $2  1>&2
-    return $?
+    local REG_RTL_TYPE=20
+
+    # Read the RTL_TYPE register
+    local rtl_type=$(read_reg $REG_RTL_TYPE)
+
+    # If it's 0xFFFF_FFFF, we need to re-enumerate the PCI bus
+    if [ $rtl_type -eq $((0xFFFFFFFF)) ]; then
+        echo "Re-enumerating PCI bus..." 1>&2
+        hot_reset 1>/dev/null 2>/dev/null
+        rtl_type=$(read_reg $REG_RTL_TYPE)
+    fi
+
+    # echo a "1" for pass or a "0" for fail
+    test $rtl_type -eq 912018 && echo "1" || echo "0"
 }
 #==============================================================================
 
@@ -189,8 +181,6 @@ get_packet_size()
     read_reg $REG_PACKET_SIZE 
 }
 #==============================================================================
-
-
 
 
 #==============================================================================
