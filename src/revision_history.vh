@@ -15,13 +15,16 @@
 //                          Separated the CMAC clocks to make the CMAC clocking independent
 //                          of each other
 //
-//                          No functional changes
+//                          No behavioral changes
 //
 // 28-Apr-2024  1.5.0  DWW  Added support for RTL_TYPE and RTL_SUBTYPE
+//
+// 30-Apr-2024  1.5.1  DWW  Removed extraneous reset control logic from CMACs
+//                          No behavioral changes
 //================================================================================================
 localparam VERSION_MAJOR = 1;
 localparam VERSION_MINOR = 5;
-localparam VERSION_BUILD = 0;
+localparam VERSION_BUILD = 1;
 localparam VERSION_RCAND = 0;
 
 localparam VERSION_DAY   = 28;
