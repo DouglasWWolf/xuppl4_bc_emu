@@ -20,6 +20,7 @@
 // 28-Apr-2024  1.5.0  DWW  Added support for RTL_TYPE and RTL_SUBTYPE
 //
 // 30-Apr-2024  1.5.1  DWW  Removed extraneous reset control logic from CMACs
+//                          Added an ILA that monitors mindy-core outputs 
 //                          No behavioral changes
 //================================================================================================
 localparam VERSION_MAJOR = 1;

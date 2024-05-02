@@ -71,7 +71,7 @@ set_continuous_mode
 set_abm_addr 0x1_0000_0000
 
 # Set the output data rate in bytes-per-microsecond. 
-set_rate_limit 12288
+set_rate_limit 16000
 
 # Our packets are 4K each
 set_packet_size 4096
@@ -80,7 +80,7 @@ set_packet_size 4096
 set_frame_size 0x40_0000
 
 # Set the number of packets in a packet-burst on each QSFP
-set_ping_pong_group 1
+set_ping_pong_group 4
 
 # Define the location and size of the frame-data ring buffer
 define_fd_ring 0x1234_5678_9abc_def0 0x0000_0000_0400_0000

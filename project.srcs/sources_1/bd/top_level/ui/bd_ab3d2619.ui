@@ -54,7 +54,7 @@ levelinfo -pg 1 0 240 630 1040 1410 1600
 pagesize -pg 1 -db -bbox -sgen -190 0 1730 730
 ",
    "No Loops_ScaleFactor":"0.769754",
-   "No Loops_TopLeft":"-181,-81",
+   "No Loops_TopLeft":"-23,-81",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace inst mindy_core_ctl_0 -pg 1 -lvl 1 -x 170 -y 120 -defaultsOSRD

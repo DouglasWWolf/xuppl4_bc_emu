@@ -26,7 +26,8 @@
           "mindy_interface": "",
           "ping_ponger": "",
           "rdmx_xmit_0": "",
-          "rdmx_xmit_1": ""
+          "rdmx_xmit_1": "",
+          "outgoing_ila": ""
         },
         "metadata_gen": "",
         "mindy_core_config": "",
@@ -3289,6 +3290,29 @@
                     "direction": "O"
                   }
                 }
+              },
+              "outgoing_ila": {
+                "vlnv": "xilinx.com:ip:system_ila:1.1",
+                "xci_name": "top_level_system_ila_0_0",
+                "xci_path": "ip/top_level_system_ila_0_0/top_level_system_ila_0_0.xci",
+                "inst_hier_path": "bright_cycle_emulator/mindy_core/outgoing_ila",
+                "parameters": {
+                  "C_NUM_MONITOR_SLOTS": {
+                    "value": "2"
+                  }
+                },
+                "interface_ports": {
+                  "SLOT_0_AXI": {
+                    "mode": "Monitor",
+                    "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+                    "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
+                  },
+                  "SLOT_1_AXI": {
+                    "mode": "Monitor",
+                    "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+                    "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
+                  }
+                }
               }
             },
             "interface_nets": {
@@ -3337,13 +3361,15 @@
               "rdmx_shim_M_AXI0": {
                 "interface_ports": [
                   "rdmx_xmit_0/S_AXI",
-                  "rdmx_shim/M_AXI0"
+                  "rdmx_shim/M_AXI0",
+                  "outgoing_ila/SLOT_0_AXI"
                 ]
               },
               "rdmx_shim_M_AXI1": {
                 "interface_ports": [
                   "rdmx_xmit_1/S_AXI",
-                  "rdmx_shim/M_AXI1"
+                  "rdmx_shim/M_AXI1",
+                  "outgoing_ila/SLOT_1_AXI"
                 ]
               },
               "rdmx_xmit_0_AXIS_TX": {
@@ -3416,7 +3442,8 @@
                   "mindy_interface/clk",
                   "ping_ponger/clk",
                   "rdmx_xmit_0/src_clk",
-                  "rdmx_xmit_1/src_clk"
+                  "rdmx_xmit_1/src_clk",
+                  "outgoing_ila/clk"
                 ]
               },
               "eth0_tx_clk_1": {
