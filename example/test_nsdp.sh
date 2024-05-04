@@ -74,7 +74,7 @@ set_abm_addr 0x1_0000_0000
 set_rate_limit 16000
 
 # Our packets are 4K each
-set_packet_size 4096
+set_packet_size 0x1000
 
 # A frame is 4M bytes
 set_frame_size 0x40_0000
@@ -82,14 +82,14 @@ set_frame_size 0x40_0000
 # Set the number of packets in a packet-burst on each QSFP
 set_ping_pong_group 4
 
-# Define the location and size of the frame-data ring buffer
-define_fd_ring 0x1234_5678_9abc_def0 0x0000_0000_0400_0000
+# Define the address and size of the remote frame-data ring buffer
+define_fd_ring 0x0001_0000_0000_0000 0x4000
 
-# Define the location and size of the meta-command ring buffer
-define_md_ring 0x0000_0002_0000_0000 4096
+# Define the address and size of the remote meta-data ring buffer
+define_md_ring 0x0002_0000_0000_0000 1024
 
-# Define the address where the frame counter is stored
-set_frame_counter_addr 0x0000_0003_0000_0000
+# Define the address of the remote frame-counter 
+set_frame_counter_addr 0x1234_5678_9ABC_DEF0
 
 # Set the 64-byte fixed portion of the metacommand
 set_metadata  0 0x01020304
