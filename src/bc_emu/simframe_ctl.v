@@ -27,6 +27,9 @@ module simframe_ctl #
 (
     input clk, resetn,
 
+    // Provides resetn to all the downstream modules
+    output resetn_out,
+
     //================== This is an AXI4-Lite slave interface ==================
         
     // "Specify write address"              -- Master --    -- Slave --
@@ -61,11 +64,9 @@ module simframe_ctl #
     //=========================   The output stream   ==========================
     output [PATTERN_WIDTH-1:0] AXIS_OUT_TDATA,
     output reg                 AXIS_OUT_TVALID,
-    input                      AXIS_OUT_TREADY,
+    input                      AXIS_OUT_TREADY
     //==========================================================================
 
-    // This will strobe high for one cycle any time a new job starts
-    output reg new_job
 );  
 
     // Any time the register map of this module changes, this number should
@@ -200,10 +201,19 @@ module simframe_ctl #
     reg[1:0] fifo_load_strobe;
 
     // These bits indicate which FIFO will be output next
-    reg[1:0] fifo_on_deck;
+    reg[1:0] fifo_on_deck, pending_fifo_on_deck;
 
     // These bits indicate which FIFO is actively outputting data
     reg[1:0] active_fifo;
+
+    //==========================================================================
+    // Determines when "resetn_out" is asserted
+    //==========================================================================
+    localparam ASSERT_RESETN_OUT = 40;
+    reg[7:0] resetn_out_countdown;
+    assign resetn_out = ~(resetn_out_countdown >= 20);
+    //==========================================================================
+
 
     //==========================================================================
     // This state machine handles AXI4-Lite write requests
@@ -222,8 +232,10 @@ module simframe_ctl #
         if (f0_reset_counter) f0_reset_counter <= f0_reset_counter - 1;
         if (f1_reset_counter) f1_reset_counter <= f1_reset_counter - 1;
 
-        // This will strobe-high for one cycle to indicate start of a new job
-        new_job <= 0;
+        // Countdown timer that controls output signal 'resetn_out' 
+        if (resetn_out_countdown) begin
+            resetn_out_countdown <= resetn_out_countdown - 1;
+        end
 
         // When one of these bit strobes high, "input_value" is loaded into a FIFO
         fifo_load_strobe <= 0;
@@ -234,14 +246,15 @@ module simframe_ctl #
 
         // If we're in reset, initialize important registers
         if (resetn == 0) begin
-            axi4_write_state <= 0;
-            f0_reset_counter <= 0;
-            f1_reset_counter <= 0;
-            f0_count         <= 0;
-            f1_count         <= 0;
-            fifo_on_deck     <= 0;
-            continuous_mode  <= 0;
-            nshot_limit      <= 1;
+            axi4_write_state     <= 0;
+            f0_reset_counter     <= 0;
+            f1_reset_counter     <= 0;
+            f0_count             <= 0;
+            f1_count             <= 0;
+            fifo_on_deck         <= 0;
+            continuous_mode      <= 0;
+            nshot_limit          <= 1;
+            resetn_out_countdown <= ASSERT_RESETN_OUT;
 
         // If we're not in reset, and a write-request has occured...        
         end else case (axi4_write_state)
@@ -302,20 +315,34 @@ module simframe_ctl #
                         end
 
 
-                    // Don't allow the user to attempt to start both FIFOs at once
+                    // Is the user trying to activate a FIFO?
                     REG_START:
                         if (ashi_wdata[1:0] == 2'b00) begin
                             fifo_on_deck <= 0;
                         end
                         
+                        // Is the user trying to activate fifo_0?  If they are, 
+                        // and if there is currently no active FIFO, it means
+                        // we're starting a new run so go perform the reset logic.
                         else if (ashi_wdata[1:0] == 2'b01 && f0_count) begin
-                            fifo_on_deck    <= 1;
-                            new_job         <= (active_fifo == 0);
+                            if (active_fifo == 0) begin
+                                pending_fifo_on_deck <= 1;
+                                resetn_out_countdown <= ASSERT_RESETN_OUT;
+                                axi4_write_state     <= 2;
+                            end else
+                                fifo_on_deck         <= 1;
                         end
-                        
+
+                        // Is the user trying to activate fifo_1?  If they are, 
+                        // and if there is currently no active FIFO, it means
+                        // we're starting a new run so go perform the reset logic.
                         else if (ashi_wdata[1:0] == 2'b10 && f1_count) begin
-                            fifo_on_deck <= 2;
-                            new_job      <= (active_fifo == 0);                            
+                            if (active_fifo == 0) begin
+                                pending_fifo_on_deck <= 2;
+                                resetn_out_countdown <= ASSERT_RESETN_OUT;
+                                axi4_write_state     <= 2;
+                            end else
+                                fifo_on_deck         <= 2;
                         end
 
                     REG_CONT_MODE:
@@ -351,6 +378,18 @@ module simframe_ctl #
         // to both go back to zero
         1:  if (f0_reset_counter == 0 && f1_reset_counter == 0)
                 axi4_write_state <= 0;
+
+        // In this state, we're waiting for the external reset process to 
+        // finish, then we store the new "fifo_on_deck" value.  Note that
+        // resetn_out is only asserted for a part of the time that
+        // 'resetn_count_countdown' is non-zero.   We wait for it to get
+        // all the way to zero so that we are sitting idle for a few cycles
+        // after everything downstream comes out of reset.  Why? Because
+        // we're paranoid :-)
+        2:  if (resetn_out_countdown == 0) begin
+                fifo_on_deck     <= pending_fifo_on_deck;
+                axi4_write_state <= 0;
+            end
 
         endcase
     end

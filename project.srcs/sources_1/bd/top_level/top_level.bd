@@ -31,7 +31,6 @@
         },
         "metadata_gen": "",
         "mindy_core_config": "",
-        "mindy_core_reset": "",
         "rate_limiter": "",
         "simframe_config": "",
         "simframe_gen": "",
@@ -3886,60 +3885,6 @@
               }
             }
           },
-          "mindy_core_reset": {
-            "vlnv": "xilinx.com:module_ref:mindy_core_reset:1.0",
-            "xci_name": "top_level_mindy_core_reset_0_0",
-            "xci_path": "ip/top_level_mindy_core_reset_0_0/top_level_mindy_core_reset_0_0.xci",
-            "inst_hier_path": "bright_cycle_emulator/mindy_core_reset",
-            "reference_info": {
-              "ref_type": "hdl",
-              "ref_name": "mindy_core_reset",
-              "boundary_crc": "0x0"
-            },
-            "ports": {
-              "clk": {
-                "type": "clk",
-                "direction": "I",
-                "parameters": {
-                  "ASSOCIATED_RESET": {
-                    "value": "resetn:external_resetn",
-                    "value_src": "constant"
-                  },
-                  "FREQ_HZ": {
-                    "value": "250000000",
-                    "value_src": "user_prop"
-                  },
-                  "CLK_DOMAIN": {
-                    "value": "top_level_xdma_0_0_axi_aclk",
-                    "value_src": "default_prop"
-                  }
-                }
-              },
-              "resetn": {
-                "type": "rst",
-                "direction": "I",
-                "parameters": {
-                  "POLARITY": {
-                    "value": "ACTIVE_LOW",
-                    "value_src": "constant"
-                  }
-                }
-              },
-              "new_job": {
-                "direction": "I"
-              },
-              "external_resetn": {
-                "type": "rst",
-                "direction": "O",
-                "parameters": {
-                  "POLARITY": {
-                    "value": "ACTIVE_LOW",
-                    "value_src": "constant"
-                  }
-                }
-              }
-            }
-          },
           "rate_limiter": {
             "vlnv": "xilinx.com:module_ref:rate_limiter:1.0",
             "xci_name": "top_level_rate_limiter_0_0",
@@ -4886,7 +4831,7 @@
                   }
                 }
               },
-              "new_job": {
+              "resetn_out": {
                 "direction": "O"
               }
             }
@@ -4997,7 +4942,6 @@
               "mindy_core/clk",
               "metadata_gen/clk",
               "mindy_core_config/clk",
-              "mindy_core_reset/clk",
               "rate_limiter/clk",
               "simframe_config/clk",
               "simframe_gen/clk",
@@ -5025,7 +4969,7 @@
           },
           "mindy_core_reset_external_resetn": {
             "ports": [
-              "mindy_core_reset/external_resetn",
+              "simframe_ctl/resetn_out",
               "mindy_core/resetn",
               "metadata_gen/resetn",
               "rate_limiter/resetn",
@@ -5036,7 +4980,6 @@
             "ports": [
               "resetn",
               "mindy_core_config/resetn",
-              "mindy_core_reset/resetn",
               "simframe_config/resetn",
               "simframe_ctl/resetn"
             ]
@@ -5051,12 +4994,6 @@
             "ports": [
               "simframe_config/METADATA",
               "metadata_gen/MD_FIXED"
-            ]
-          },
-          "simframe_ctl_new_job": {
-            "ports": [
-              "simframe_ctl/new_job",
-              "mindy_core_reset/new_job"
             ]
           },
           "simframe_gen_start_of_frame": {
