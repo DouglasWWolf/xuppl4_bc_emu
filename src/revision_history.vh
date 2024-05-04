@@ -26,14 +26,16 @@
 // 02-May-2024  1.6.0  DWW  Fixed bug in the reset logic that feeds mindy.
 //
 //                          Removed the "mindy_core_reset.v" module and mindy-core reset domain
-//                          is now controled from "resetn_out" of simframe_ctl.v                      
+//                          is now controled from "resetn_out" of simframe_ctl.v
+//
+// 04-May-2024  1.7.0  DWW  Just a version number change                      
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 6;
+localparam VERSION_MINOR = 7;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 02;
+localparam VERSION_DAY   = 4;
 localparam VERSION_MONTH = 5;
 localparam VERSION_YEAR  = 2024;
 
