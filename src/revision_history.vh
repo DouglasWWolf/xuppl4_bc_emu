@@ -28,10 +28,16 @@
 //                          Removed the "mindy_core_reset.v" module and mindy-core reset domain
 //                          is now controled from "resetn_out" of simframe_ctl.v
 //
-// 04-May-2024  1.7.0  DWW  Just a version number change                      
+// 04-May-2024  1.7.0  DWW  Just a version number change    
+//
+// 04-May-2024  1.8.0  DWW  Fixed bug where rdmx_fe.v could attempt to write to the address FIFO
+//                          before it was out of reset.     Added "addr_fifo_debug" signal that
+//                          will go high on any clock cycle where data is ready to be written
+//                          into the address FIFO, but the address FIFO isn't ready to receive
+//                          it yet.  (Usually because it hasn't come out of reset yet)             
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 7;
+localparam VERSION_MINOR = 8;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
