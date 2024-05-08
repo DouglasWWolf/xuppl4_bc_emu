@@ -5426,6 +5426,9 @@
                   },
                   "sys_reset_out": {
                     "direction": "O"
+                  },
+                  "sys_resetn_out": {
+                    "direction": "O"
                   }
                 }
               }
@@ -5856,6 +5859,9 @@
                     "direction": "I"
                   },
                   "sys_reset_out": {
+                    "direction": "O"
+                  },
+                  "sys_resetn_out": {
                     "direction": "O"
                   }
                 }
