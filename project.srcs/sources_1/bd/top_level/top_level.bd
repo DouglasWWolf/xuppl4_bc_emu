@@ -52,14 +52,12 @@
         "rdmx_0": {
           "axis_data_cdc": "",
           "rdmx_pkt_filter": "",
-          "rdmx_recv": "",
-          "resetn_cdc": ""
+          "rdmx_recv": ""
         },
         "rdmx_1": {
           "axis_data_cdc": "",
           "rdmx_pkt_filter": "",
-          "rdmx_recv": "",
-          "resetn_cdc": ""
+          "rdmx_recv": ""
         },
         "axi_eth_status": ""
       },
@@ -5127,6 +5125,9 @@
               },
               "init_clk": {
                 "direction": "I"
+              },
+              "stream_resetn": {
+                "direction": "O"
               }
             },
             "components": {
@@ -5496,6 +5497,12 @@
                   "cmac/sys_reset"
                 ]
               },
+              "cmac_control_sys_resetn_out": {
+                "ports": [
+                  "cmac_control/sys_resetn_out",
+                  "stream_resetn"
+                ]
+              },
               "cmac_gt_rxusrclk2": {
                 "ports": [
                   "cmac/gt_txusrclk2",
@@ -5561,6 +5568,9 @@
               "init_clk": {
                 "type": "clk",
                 "direction": "I"
+              },
+              "stream_resetn": {
+                "direction": "O"
               }
             },
             "components": {
@@ -5930,6 +5940,12 @@
                   "cmac/sys_reset"
                 ]
               },
+              "cmac_control_sys_resetn_out": {
+                "ports": [
+                  "cmac_control/sys_resetn_out",
+                  "stream_resetn"
+                ]
+              },
               "cmac_gt_rxusrclk2": {
                 "ports": [
                   "cmac/gt_txusrclk2",
@@ -5982,6 +5998,9 @@
                 "direction": "I"
               },
               "sys_clk": {
+                "direction": "I"
+              },
+              "eth_resetn": {
                 "direction": "I"
               }
             },
@@ -6616,20 +6635,6 @@
                     }
                   }
                 }
-              },
-              "resetn_cdc": {
-                "vlnv": "xilinx.com:ip:xpm_cdc_gen:1.0",
-                "xci_name": "top_level_xpm_cdc_gen_0_0",
-                "xci_path": "ip/top_level_xpm_cdc_gen_0_0/top_level_xpm_cdc_gen_0_0.xci",
-                "inst_hier_path": "ethernet/rdmx_0/resetn_cdc",
-                "parameters": {
-                  "CDC_TYPE": {
-                    "value": "xpm_cdc_async_rst"
-                  },
-                  "RST_ACTIVE_HIGH": {
-                    "value": "false"
-                  }
-                }
               }
             },
             "interface_nets": {
@@ -6663,13 +6668,12 @@
                 "ports": [
                   "eth_clk",
                   "axis_data_cdc/s_axis_aclk",
-                  "rdmx_pkt_filter/clk",
-                  "resetn_cdc/dest_clk"
+                  "rdmx_pkt_filter/clk"
                 ]
               },
               "resetn_cdc_dest_arst": {
                 "ports": [
-                  "resetn_cdc/dest_arst",
+                  "eth_resetn",
                   "axis_data_cdc/s_axis_aresetn",
                   "rdmx_pkt_filter/resetn"
                 ]
@@ -6684,8 +6688,7 @@
               "sys_resetn_1": {
                 "ports": [
                   "sys_resetn",
-                  "rdmx_recv/resetn",
-                  "resetn_cdc/src_arst"
+                  "rdmx_recv/resetn"
                 ]
               }
             }
@@ -6711,6 +6714,9 @@
                 "direction": "I"
               },
               "sys_clk": {
+                "direction": "I"
+              },
+              "eth_resetn": {
                 "direction": "I"
               }
             },
@@ -7345,20 +7351,6 @@
                     }
                   }
                 }
-              },
-              "resetn_cdc": {
-                "vlnv": "xilinx.com:ip:xpm_cdc_gen:1.0",
-                "xci_name": "top_level_resetn_cdc_0",
-                "xci_path": "ip/top_level_resetn_cdc_0/top_level_resetn_cdc_0.xci",
-                "inst_hier_path": "ethernet/rdmx_1/resetn_cdc",
-                "parameters": {
-                  "CDC_TYPE": {
-                    "value": "xpm_cdc_async_rst"
-                  },
-                  "RST_ACTIVE_HIGH": {
-                    "value": "false"
-                  }
-                }
               }
             },
             "interface_nets": {
@@ -7392,13 +7384,12 @@
                 "ports": [
                   "eth_clk",
                   "axis_data_cdc/s_axis_aclk",
-                  "rdmx_pkt_filter/clk",
-                  "resetn_cdc/dest_clk"
+                  "rdmx_pkt_filter/clk"
                 ]
               },
               "resetn_cdc_dest_arst": {
                 "ports": [
-                  "resetn_cdc/dest_arst",
+                  "eth_resetn",
                   "axis_data_cdc/s_axis_aresetn",
                   "rdmx_pkt_filter/resetn"
                 ]
@@ -7413,8 +7404,7 @@
               "sys_resetn_1": {
                 "ports": [
                   "sys_resetn",
-                  "rdmx_recv/resetn",
-                  "resetn_cdc/src_arst"
+                  "rdmx_recv/resetn"
                 ]
               }
             }
@@ -7752,9 +7742,9 @@
           "axi_resetn_1": {
             "ports": [
               "axi_resetn",
-              "rdmx_0/sys_resetn",
+              "axi_eth_status/axi_resetn",
               "rdmx_1/sys_resetn",
-              "axi_eth_status/axi_resetn"
+              "rdmx_0/sys_resetn"
             ]
           },
           "eth_0_stat_rx_aligned_0": {
@@ -7783,6 +7773,18 @@
               "eth_1/stream_clk",
               "eth1_tx_clk",
               "rdmx_1/eth_clk"
+            ]
+          },
+          "eth_resetn_1": {
+            "ports": [
+              "eth_1/stream_resetn",
+              "rdmx_1/eth_resetn"
+            ]
+          },
+          "eth_resetn_2": {
+            "ports": [
+              "eth_0/stream_resetn",
+              "rdmx_0/eth_resetn"
             ]
           },
           "init_clk_0_1": {
