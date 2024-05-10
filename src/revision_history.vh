@@ -36,14 +36,18 @@
 //                          into the address FIFO, but the address FIFO isn't ready to receive
 //                          it yet.  (Usually because it hasn't come out of reset yet)             
 //
-// 07-May-2024  1.9.0  DWW  Added RDMX sequence number to mindy-core's "rdmx_xmit_be.v"
+// 09-May-2024  1.9.0  DWW  Added RDMX sequence number to mindy-core's "rdmx_xmit_be.v"
+//                          New cmac_control.v to manage CMAC's gtwiz_reset_rx_path
+//                          No longer resetting CMAC's sys_reset pin
+//                          Numerous small mindy-core changes to fix reset handling
+//
 //================================================================================================
 localparam VERSION_MAJOR = 1;
 localparam VERSION_MINOR = 9;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 7;
+localparam VERSION_DAY   = 9;
 localparam VERSION_MONTH = 5;
 localparam VERSION_YEAR  = 2024;
 
