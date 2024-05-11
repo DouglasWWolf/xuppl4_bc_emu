@@ -17,9 +17,6 @@
 //                       sys_reset/resetn_out changed to rx_reset/resetn_out
 //
 //                       Added "rx_datapath_reset" signal
-//
-//                       We now wait for rx_alignment to be stable for a number of cycles
-//                       before we start looking for its loss. 
 //===================================================================================================
 
 /*
@@ -49,8 +46,8 @@ module cmac_control # (parameter RSFEC = 1)
     (* X_INTERFACE_PARAMETER = "ASSOCIATED_RESET rx_reset_out:rx_resetn_out:reset_rx_datapath, FREQ_HZ 322265625" *)
     input rx_clk,
 
-    (* X_INTERFACE_INFO      = "xilinx.com:signal:reset:1.0 sys_reset_in RST" *)
-    (* X_INTERFACE_PARAMETER = "POLARITY ACTIVE_HIGH"                         *)
+    (* X_INTERFACE_INFO      = "xilinx.com:signal:reset:1.0 sys_resetn_in RST" *)
+    (* X_INTERFACE_PARAMETER = "POLARITY ACTIVE_LOW "                         *)
     input sys_resetn_in,
 
     (* X_INTERFACE_INFO = "xilinx.com:*:rs_fec_ports:2.0 rs_fec ctl_rx_rsfec_enable" *)
@@ -172,23 +169,6 @@ i_sync_sys_resetn_in
 //=============================================================================
 
 
-//=============================================================================
-// This block determines when "sync_rx_aligned" has been asserted for a
-// number of continuous cycles
-//=============================================================================
-localparam ALIGNMENT_STABLE_TIMEOUT = 512;
-reg[15:0] alignment_stable_timer;
-
-always @(posedge rx_clk) begin
-    if (sync_rx_aligned == 0)
-        alignment_stable_timer <= ALIGNMENT_STABLE_TIMEOUT;
-    else if (alignment_stable_timer)
-        alignment_stable_timer <= alignment_stable_timer - 1;
-end
-
-wire alignment_stable = (alignment_stable_timer == 0);
-//=============================================================================
-
 
 //=============================================================================
 // This state machine waits for alignment to be acheived.  If a timeout
@@ -219,7 +199,7 @@ always @(posedge rx_clk) begin
 
         // Wait for alignment to occur.  If we don't get PCS alignment
         // before the timeout, reset the CMAC and try again
-        1:  if (alignment_stable) begin
+        1:  if (sync_rx_aligned) begin
                 fsm_state     <= 2;
             end else if (alignment_timer == 0) begin
                 reset_timer   <= RESET_TIMEOUT;
