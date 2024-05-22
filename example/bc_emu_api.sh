@@ -10,12 +10,15 @@
 #
 # 11-Apr-24  1.3.0  DWW  Added "set_nshot_mode"
 #
-# 28-Apr-25  1.5.0  DWW  Now assuming fpga_utils is in the search path 
+# 28-Apr-24  1.5.0  DWW  Now assuming fpga_utils is in the search path 
 #                        Added "confirm_rtl()" API
 #                        Removed "load_bitstream()" API
-#                        
+#
+# 22-May-24  1.10.0 DWW  Added "enable_sensor_header"
+#                        Added "set_sensor_header"
+#                        Added "get_sensor_header"
 #==============================================================================
-BC_EMU_API_VERSION=1.5.0
+BC_EMU_API_VERSION=1.10.0
 
 #==============================================================================
 # AXI register definitions
@@ -45,6 +48,8 @@ MC_BASE=0x2000
        REG_FRAME_SIZE=$((MC_BASE + 10* 4))
       REG_PACKET_SIZE=$((MC_BASE + 11* 4))
 REG_PACKETS_PER_GROUP=$((MC_BASE + 12* 4))
+    REG_SENSOR_HEADER=$((MC_BASE + 13* 4))
+REG_ENABLE_SENSOR_HDR=$((MC_BASE + 14* 4))
 
 
 REG_BYTES_PER_USEC=$((0x3000 + 12*4))
@@ -273,6 +278,38 @@ set_abm_addr()
 {
     pcireg $REG_ABM_HOST_ADDR_H $(upper32 $1)
     pcireg $REG_ABM_HOST_ADDR_L $(lower32 $1)
+}
+#==============================================================================
+
+
+#==============================================================================
+#  enables or disables outputting of sensor-chip headers
+#     $1 = 0: Disable
+#     $1 = 1: Enable
+#==============================================================================
+enable_sensor_header()
+{
+    pcireg $REG_ENABLE_SENSOR_HDR $1
+}
+#==============================================================================
+
+
+#==============================================================================
+# Get the value of the sensor-header fields
+#==============================================================================
+set_sensor_header()
+{
+    pcireg $REG_SENSOR_HEADER $(strip_underscores $1)    
+}
+#==============================================================================
+
+
+#==============================================================================
+# Get the value of the sensor headers
+#==============================================================================
+get_sensor_header()
+{
+    read_reg $REG_SENSOR_HEADER
 }
 #==============================================================================
 
