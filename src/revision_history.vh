@@ -44,13 +44,15 @@
 // 21-May-2024  1.10.0 DWW  Added support for outputting sensor-chip header
 //
 // 22-May-2024  1.11.0 DWW  Added support for outputting sensor-chip footer
+//
+// 23-May-2024  1.12.0 DWW  Now providing register access to mindy-core frame counters
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 11;
+localparam VERSION_MINOR = 12;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 22;
+localparam VERSION_DAY   = 23;
 localparam VERSION_MONTH = 5;
 localparam VERSION_YEAR  = 2024;
 

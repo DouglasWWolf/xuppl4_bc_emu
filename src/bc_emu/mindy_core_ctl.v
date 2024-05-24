@@ -15,6 +15,8 @@ module mindy_core_ctl
 (
     input clk, resetn,
 
+    input     [31:0] FRAME_COUNT_0, FRAME_COUNT_1,
+
     output reg[63:0] RFD_ADDR, RFD_SIZE,
     output reg[63:0] RMD_ADDR, RMD_SIZE,
     output reg[63:0] RFC_ADDR,
@@ -24,7 +26,6 @@ module mindy_core_ctl
     output reg[31:0] PACKETS_PER_GROUP,
 
     output reg[31:0] SENSOR_HDR,
-
     output reg       SENSOR_HDR_ENABLE,
 
     //================== This is an AXI4-Lite slave interface ==================
@@ -77,6 +78,8 @@ localparam REG_PACKET_SIZE       = 11;
 localparam REG_PACKETS_PER_GROUP = 12;
 localparam REG_SENSOR_HDR        = 13;
 localparam REG_SENSOR_HDR_ENABLE = 14;
+localparam REG_FRAME_COUNT_0     = 15;
+localparam REG_FRAME_COUNT_1     = 16;
 //==========================================================================
 
 
@@ -201,12 +204,14 @@ always @(posedge clk) begin
             REG_RMD_SIZE_L : ashi_rdata <= RMD_SIZE[31:00]; 
             REG_RFC_ADDR_H : ashi_rdata <= RFC_ADDR[63:32];
             REG_RFC_ADDR_L : ashi_rdata <= RFC_ADDR[31:00];
-
+            
             REG_FRAME_SIZE        : ashi_rdata <= FRAME_SIZE;       
             REG_PACKET_SIZE       : ashi_rdata <= PACKET_SIZE;
             REG_PACKETS_PER_GROUP : ashi_rdata <= PACKETS_PER_GROUP;
             REG_SENSOR_HDR        : ashi_rdata <= SENSOR_HDR;
             REG_SENSOR_HDR_ENABLE : ashi_rdata <= SENSOR_HDR_ENABLE;
+            REG_FRAME_COUNT_0     : ashi_rdata <= FRAME_COUNT_0;
+            REG_FRAME_COUNT_1     : ashi_rdata <= FRAME_COUNT_1;
 
             // Reads of any other register are a decode-error
             default: ashi_rresp <= DECERR;
