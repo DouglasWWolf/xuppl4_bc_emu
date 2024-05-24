@@ -17,8 +17,10 @@
 # 22-May-24  1.10.0 DWW  Added "enable_sensor_header"
 #                        Added "set_sensor_header"
 #                        Added "get_sensor_header"
+#
+# 24-May-24  1.12.0 DWW  Added "get_frame_count"
 #==============================================================================
-BC_EMU_API_VERSION=1.10.0
+BC_EMU_API_VERSION=1.12.0
 
 #==============================================================================
 # AXI register definitions
@@ -50,7 +52,8 @@ MC_BASE=0x2000
 REG_PACKETS_PER_GROUP=$((MC_BASE + 12* 4))
     REG_SENSOR_HEADER=$((MC_BASE + 13* 4))
 REG_ENABLE_SENSOR_HDR=$((MC_BASE + 14* 4))
-
+    REG_FRAME_COUNT_0=$((MC_BASE + 15 *4))
+    REG_FRAME_COUNT_1=$((MC_BASE + 16 *4))
 
 REG_BYTES_PER_USEC=$((0x3000 + 12*4))
       REG_METADATA=$((0x3000 + 16*4))
@@ -524,6 +527,24 @@ start_fifo()
 
     # And tell the FPGA to start generating frames from this FIFO
     pcireg $REG_START $which_fifo
+}
+#==============================================================================
+
+
+#==============================================================================
+# Returns the specified frame counter
+#
+# $1 = 0 or 1
+#==============================================================================
+get_frame_count()
+{
+    if [ "$1" == "0" ]; then
+        read_reg $REG_FRAME_COUNT_0
+    elif [ "$1" == "1" ]; then
+        read_reg $REG_FRAME_COUNT_1
+    else
+        echo "Bad parameter [$1] on get_frame_count()" 1>&2
+    fi
 }
 #==============================================================================
 
