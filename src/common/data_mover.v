@@ -5,6 +5,7 @@
 //   Date     Who   Ver  Changes
 //====================================================================================
 // 22-Mar-24  DWW     1  Initial creation
+// 18-Jun-24  DWW     2  Made much more generic
 //====================================================================================
 
 /*
@@ -15,17 +16,11 @@
 */
 
 
-module data_mover #
-(
-    parameter DW                = 512,
-    parameter AW                = 64,
-    parameter BYTE_COUNT        = 1024 * 1024,
-    parameter BURST_SIZE        = 4096,
-    parameter[63:0] SRC_ADDRESS = 64'h0000_0000
-)
+module data_mover # (parameter DW = 512, parameter AW = 64)
 (
     input       clk, resetn,
-    input[63:0] dest_address,
+    input[63:0] src_address, dst_address, byte_count,
+    input[12:0] burst_size,
     input       start,
 
     //=================  This is the source AXI4-master interface  ================
@@ -125,8 +120,26 @@ module data_mover #
 );
 
 // Compute the geometry of our data movement
-localparam CYCLES_PER_BURST = BURST_SIZE / (DW/8);
-localparam BURSTS_PER_MOVE  = BYTE_COUNT / BURST_SIZE;
+wire[8:0] CYCLES_PER_BURST = burst_size / (DW/8);
+
+//==========================================================================
+// Compute BURSTS_PER_MOVE 
+//==========================================================================
+reg[31:0] BURSTS_PER_MOVE;
+always @* case(burst_size)
+          4: BURSTS_PER_MOVE = byte_count / 4;
+          8: BURSTS_PER_MOVE = byte_count / 8;
+         16: BURSTS_PER_MOVE = byte_count / 16; 
+         32: BURSTS_PER_MOVE = byte_count / 32; 
+         64: BURSTS_PER_MOVE = byte_count / 64; 
+        128: BURSTS_PER_MOVE = byte_count / 128; 
+        256: BURSTS_PER_MOVE = byte_count / 256; 
+        512: BURSTS_PER_MOVE = byte_count / 512; 
+       1024: BURSTS_PER_MOVE = byte_count / 1024; 
+       2048: BURSTS_PER_MOVE = byte_count / 2048; 
+    default: BURSTS_PER_MOVE = byte_count / 4096; 
+endcase
+//==========================================================================
 
 // State machine states
 reg arsm_state;  // AR-channel of SRC_AXI
@@ -135,9 +148,6 @@ reg wsm_state;   // W_channel  of DST_AXI
 
 // These count bursts for each of the state machines
 reg[31:0] ar_count, aw_count, w_count;
-
-// Do we have a valid destination address?
-wire dest_is_valid = (dest_address != 0);
 
 // We're always ready to receive write-acknowledgements
 assign DST_AXI_BREADY = 1;
@@ -154,9 +164,9 @@ always @(posedge clk) begin
         SRC_AXI_ARVALID <= 0;
     end else case (arsm_state)
 
-        0:  if (start & dest_is_valid) begin
+        0:  if (start) begin
                 ar_count        <= 1;
-                SRC_AXI_ARADDR  <= SRC_ADDRESS;
+                SRC_AXI_ARADDR  <= src_address;
                 SRC_AXI_ARVALID <= 1;
                 arsm_state      <= 1;
             end
@@ -166,7 +176,7 @@ always @(posedge clk) begin
                     SRC_AXI_ARVALID <= 0;
                     arsm_state      <= 0;
                 end begin
-                    SRC_AXI_ARADDR  <= SRC_AXI_ARADDR + BURST_SIZE;
+                    SRC_AXI_ARADDR  <= SRC_AXI_ARADDR + burst_size;
                     ar_count        <= ar_count + 1; 
                 end
             end
@@ -190,9 +200,9 @@ always @(posedge clk) begin
         DST_AXI_AWVALID <= 0;
     end else case (awsm_state)
 
-        0:  if (start & dest_is_valid) begin
+        0:  if (start) begin
                 aw_count        <= 1;
-                DST_AXI_AWADDR  <= dest_address;
+                DST_AXI_AWADDR  <= dst_address;
                 DST_AXI_AWVALID <= 1;
                 awsm_state      <= 1;
             end
@@ -202,7 +212,7 @@ always @(posedge clk) begin
                     DST_AXI_AWVALID <= 0;
                     awsm_state      <= 0;
                 end begin
-                    DST_AXI_AWADDR  <= DST_AXI_AWADDR + BURST_SIZE;
+                    DST_AXI_AWADDR  <= DST_AXI_AWADDR + burst_size;
                     aw_count        <= aw_count + 1; 
                 end
             end
@@ -233,7 +243,7 @@ always @(posedge clk) begin
         wsm_state <= 0;
     end else case(wsm_state)
 
-        0:  if (start & dest_is_valid) begin
+        0:  if (start) begin
                 w_count   <= 1;
                 wsm_state <= 1;
             end
