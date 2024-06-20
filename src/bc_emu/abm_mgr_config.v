@@ -15,10 +15,9 @@ module abm_mgr_config
 (
     input clk, resetn,
 
-    output reg [63:0] pci_src_addr0,  pci_src_addr1,
-    output reg               start0,         start1,
-    output reg               start0_wstrobe, start1_wstrobe,
-    input                     idle0,          idle1,
+    output reg [63:0] pci_src_addr,
+    output reg        start0, start1, start_wstrobe,
+    input             idle0,  idle1,
 
     //================== This is an AXI4-Lite slave interface ==================
         
@@ -55,16 +54,10 @@ module abm_mgr_config
 
 
 //=========================  AXI Register Map  =============================
-localparam REG_PCI_SRC_ADDR0H   = 0;
-localparam REG_PCI_SRC_ADDR0L   = 1;
-
-localparam REG_PCI_SRC_ADDR1H   = 2;
-localparam REG_PCI_SRC_ADDR1L   = 3;
-
-localparam REG_START0           = 4;
-localparam REG_START1           = 5;
-
-localparam REG_IDLE             = 6;
+localparam REG_PCI_SRC_ADDRH = 0;
+localparam REG_PCI_SRC_ADDRL = 1;
+localparam REG_START         = 2;
+localparam REG_IDLE          = 3;
 //==========================================================================
 
 
@@ -112,17 +105,15 @@ localparam ADDR_MASK = 7'h7F;
 //==========================================================================
 always @(posedge clk) begin
 
-    // These strobe high for a single cycle at a time
-    start0_wstrobe <= 0;
-    start1_wstrobe <= 0;
+    // This strobes high for a single cycle at a time
+    start_wstrobe <= 0;
 
     // If we're in reset, initialize important registers
     if (resetn == 0) begin
-        ashi_write_state  <= 0;
-        pci_src_addr0     <= 0;
-        pci_src_addr1     <= 0;
-        start0            <= 0;
-        start1            <= 0;
+        ashi_write_state <= 0;
+        pci_src_addr     <= 0;
+        start0           <= 0;
+        start1           <= 0;
 
     // If we're not in reset, and a write-request has occured...        
     end else case (ashi_write_state)
@@ -135,21 +126,14 @@ always @(posedge clk) begin
                 // Write to the specified register...
                 case (ashi_windx)
                
-                    REG_PCI_SRC_ADDR0H: pci_src_addr0[63:32] <= ashi_wdata;
-                    REG_PCI_SRC_ADDR0L: pci_src_addr0[31:00] <= ashi_wdata;
-                    REG_PCI_SRC_ADDR1H: pci_src_addr1[63:32] <= ashi_wdata;
-                    REG_PCI_SRC_ADDR1L: pci_src_addr1[31:00] <= ashi_wdata;
+                    REG_PCI_SRC_ADDRH: pci_src_addr[63:32] <= ashi_wdata;
+                    REG_PCI_SRC_ADDRL: pci_src_addr[31:00] <= ashi_wdata;
                     
-                    REG_START0:
+                    REG_START:
                         begin
-                            start0         <= ashi_wdata;
-                            start0_wstrobe <= 1;
-                        end
-
-                    REG_START1:           
-                        begin
-                            start1         <= ashi_wdata;
-                            start1_wstrobe <= 1;
+                            start0        <= ashi_wdata[0];
+                            start1        <= ashi_wdata[1];
+                            start_wstrobe <= 1;
                         end
 
                     // Writes to any other register are a decode-error
@@ -186,13 +170,10 @@ always @(posedge clk) begin
         case (ashi_rindx)
             
             // Allow a read from any valid register                
-            REG_PCI_SRC_ADDR0H: ashi_rdata <= pci_src_addr0[63:32];
-            REG_PCI_SRC_ADDR0L: ashi_rdata <= pci_src_addr0[31:00];
-            REG_PCI_SRC_ADDR1H: ashi_rdata <= pci_src_addr1[63:32];
-            REG_PCI_SRC_ADDR1L: ashi_rdata <= pci_src_addr1[31:00];
-            REG_START0        : ashi_rdata <= start0;
-            REG_START1        : ashi_rdata <= start0;
-            REG_IDLE          : ashi_rdata <= {idle1, idle0};
+            REG_PCI_SRC_ADDRH: ashi_rdata <= pci_src_addr[63:32];
+            REG_PCI_SRC_ADDRL: ashi_rdata <= pci_src_addr[31:00];
+            REG_START        : ashi_rdata <= {start1, start0};
+            REG_IDLE         : ashi_rdata <= {idle1, idle0};
 
             // Reads of any other register are a decode-error
             default: ashi_rresp <= DECERR;

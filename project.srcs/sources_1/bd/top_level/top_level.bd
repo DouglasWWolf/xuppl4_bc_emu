@@ -8683,15 +8683,10 @@
               "abm_ready": {
                 "direction": "O"
               },
-              "pci_src_addr1": {
-                "direction": "I",
-                "left": "63",
-                "right": "0"
-              },
               "idle1": {
                 "direction": "O"
               },
-              "pci_src_addr0": {
+              "pci_src_addr": {
                 "direction": "I",
                 "left": "63",
                 "right": "0"
@@ -8700,9 +8695,6 @@
                 "direction": "O"
               },
               "load1": {
-                "direction": "I"
-              },
-              "load1_wstrobe": {
                 "direction": "I"
               },
               "load0": {
@@ -11801,19 +11793,14 @@
               "load0_wstrobe_1": {
                 "ports": [
                   "load0_wstrobe",
-                  "abm_loader_0/load_wstrobe"
+                  "abm_loader_0/load_wstrobe",
+                  "abm_loader_1/load_wstrobe"
                 ]
               },
               "load1_1": {
                 "ports": [
                   "load1",
                   "abm_loader_1/load"
-                ]
-              },
-              "load1_wstrobe_1": {
-                "ports": [
-                  "load1_wstrobe",
-                  "abm_loader_1/load_wstrobe"
                 ]
               },
               "muxed_sdp_ram_if_0_dob": {
@@ -11842,13 +11829,8 @@
               },
               "pci_src_addr0_1": {
                 "ports": [
-                  "pci_src_addr0",
-                  "abm_loader_0/pci_src_addr"
-                ]
-              },
-              "pci_src_addr1_1": {
-                "ports": [
-                  "pci_src_addr1",
+                  "pci_src_addr",
+                  "abm_loader_0/pci_src_addr",
                   "abm_loader_1/pci_src_addr"
                 ]
               },
@@ -12121,12 +12103,7 @@
                   }
                 }
               },
-              "pci_src_addr0": {
-                "direction": "O",
-                "left": "63",
-                "right": "0"
-              },
-              "pci_src_addr1": {
+              "pci_src_addr": {
                 "direction": "O",
                 "left": "63",
                 "right": "0"
@@ -12137,10 +12114,7 @@
               "start1": {
                 "direction": "O"
               },
-              "start0_wstrobe": {
-                "direction": "O"
-              },
-              "start1_wstrobe": {
+              "start_wstrobe": {
                 "direction": "O"
               },
               "idle0": {
@@ -12209,16 +12183,10 @@
               "abm_mgr_config/idle1"
             ]
           },
-          "abm_mgr_config_0_pci_src_addr0": {
+          "abm_mgr_config_pci_src_addr": {
             "ports": [
-              "abm_mgr_config/pci_src_addr0",
-              "abm_manager/pci_src_addr0"
-            ]
-          },
-          "abm_mgr_config_0_pci_src_addr1": {
-            "ports": [
-              "abm_mgr_config/pci_src_addr1",
-              "abm_manager/pci_src_addr1"
+              "abm_mgr_config/pci_src_addr",
+              "abm_manager/pci_src_addr"
             ]
           },
           "abm_mgr_config_start0": {
@@ -12227,22 +12195,16 @@
               "abm_manager/load0"
             ]
           },
-          "abm_mgr_config_start0_wstrobe": {
-            "ports": [
-              "abm_mgr_config/start0_wstrobe",
-              "abm_manager/load0_wstrobe"
-            ]
-          },
           "abm_mgr_config_start1": {
             "ports": [
               "abm_mgr_config/start1",
               "abm_manager/load1"
             ]
           },
-          "abm_mgr_config_start1_wstrobe": {
+          "abm_mgr_config_start_wstrobe": {
             "ports": [
-              "abm_mgr_config/start1_wstrobe",
-              "abm_manager/load1_wstrobe"
+              "abm_mgr_config/start_wstrobe",
+              "abm_manager/load0_wstrobe"
             ]
           },
           "pcie_axi_aclk": {
