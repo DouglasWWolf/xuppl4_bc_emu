@@ -22,6 +22,7 @@ module data_mover # (parameter DW = 512, parameter AW = 64)
     input[63:0] src_address, dst_address, byte_count,
     input[12:0] burst_size,
     input       start,
+    output      idle,
 
     //=================  This is the source AXI4-master interface  ================
 
@@ -52,7 +53,7 @@ module data_mover # (parameter DW = 512, parameter AW = 64)
 
     // "Specify read address"               -- Master --    -- Slave --
     output reg [AW-1:0]                     SRC_AXI_ARADDR,
-    output reg                              SRC_AXI_ARVALID,
+    output                                  SRC_AXI_ARVALID,
     output     [2:0]                        SRC_AXI_ARPROT,
     output                                  SRC_AXI_ARLOCK,
     output     [3:0]                        SRC_AXI_ARID,
@@ -75,7 +76,7 @@ module data_mover # (parameter DW = 512, parameter AW = 64)
 
     // "Specify write address"              -- Master --    -- Slave --
     output reg [AW-1:0]                     DST_AXI_AWADDR,
-    output reg                              DST_AXI_AWVALID,
+    output                                  DST_AXI_AWVALID,
     output     [7:0]                        DST_AXI_AWLEN,
     output     [2:0]                        DST_AXI_AWSIZE,
     output     [3:0]                        DST_AXI_AWID,
@@ -142,9 +143,9 @@ endcase
 //==========================================================================
 
 // State machine states
-reg arsm_state;  // AR-channel of SRC_AXI
-reg awsm_state;  // AW-channel of DST_AXI
-reg wsm_state;   // W_channel  of DST_AXI
+reg      arsm_state;  // AR-channel of SRC_AXI
+reg      awsm_state;  // AW-channel of DST_AXI
+reg[1:0] wsm_state;   // W_channel  of DST_AXI
 
 // These count bursts for each of the state machines
 reg[31:0] ar_count, aw_count, w_count;
@@ -152,28 +153,29 @@ reg[31:0] ar_count, aw_count, w_count;
 // We're always ready to receive write-acknowledgements
 assign DST_AXI_BREADY = 1;
 
+// The number of writes requested, and the number of writes acknowledged
+reg[31:0] writes_reqd, writes_ackd;
+
 //=============================================================================
 // This block sends read-requests to the SRC_AXI interace
 //=============================================================================
 assign SRC_AXI_ARBURST = 1;
 assign SRC_AXI_ARLEN   = CYCLES_PER_BURST - 1 ;
+assign SRC_AXI_ARVALID = (resetn == 1 && arsm_state == 1);
 //-----------------------------------------------------------------------------
 always @(posedge clk) begin
     if (resetn == 0) begin
         arsm_state      <= 0;
-        SRC_AXI_ARVALID <= 0;
     end else case (arsm_state)
 
         0:  if (start) begin
                 ar_count        <= 1;
                 SRC_AXI_ARADDR  <= src_address;
-                SRC_AXI_ARVALID <= 1;
                 arsm_state      <= 1;
             end
 
         1:  if (SRC_AXI_ARREADY & SRC_AXI_ARVALID) begin
                 if (ar_count == BURSTS_PER_MOVE) begin
-                    SRC_AXI_ARVALID <= 0;
                     arsm_state      <= 0;
                 end begin
                     SRC_AXI_ARADDR  <= SRC_AXI_ARADDR + burst_size;
@@ -193,23 +195,24 @@ end
 assign DST_AXI_AWBURST = 1;
 assign DST_AXI_AWLEN   = CYCLES_PER_BURST - 1 ;
 assign DST_AXI_AWSIZE  = $clog2(DW/8);
+assign DST_AXI_AWVALID = (resetn == 1 && awsm_state == 1);
 //-----------------------------------------------------------------------------
 always @(posedge clk) begin
+    
     if (resetn == 0) begin
-        awsm_state      <= 0;
-        DST_AXI_AWVALID <= 0;
-    end else case (awsm_state)
+        awsm_state <= 0;
+    end
+    
+    else case (awsm_state)
 
         0:  if (start) begin
                 aw_count        <= 1;
                 DST_AXI_AWADDR  <= dst_address;
-                DST_AXI_AWVALID <= 1;
                 awsm_state      <= 1;
             end
 
         1:  if (DST_AXI_AWREADY & DST_AXI_AWVALID) begin
                 if (aw_count == BURSTS_PER_MOVE) begin
-                    DST_AXI_AWVALID <= 0;
                     awsm_state      <= 0;
                 end begin
                     DST_AXI_AWADDR  <= DST_AXI_AWADDR + burst_size;
@@ -243,22 +246,57 @@ always @(posedge clk) begin
         wsm_state <= 0;
     end else case(wsm_state)
 
+        // Wait for someone to tell us to start
         0:  if (start) begin
                 w_count   <= 1;
                 wsm_state <= 1;
             end
 
+        // Every time a burst completes, count it
         1:  if (DST_AXI_WREADY & DST_AXI_WVALID & DST_AXI_WLAST) begin
                 if (w_count == BURSTS_PER_MOVE)
-                    wsm_state <= 0;
+                    wsm_state <= 2;
                 else
                     w_count   <= w_count + 1;
             end
 
+        // Wait for all write-bursts to be acknowledged
+        2:  if (writes_ackd == writes_reqd)
+                wsm_state <= 0;
     endcase
 
 end
+
+// We're idle whenever we're not busy writing data
+assign idle = (start == 0) & (wsm_state == 0);
 //============================================================================
+
+
+//============================================================================
+// This block counts the number of write transactions requested
+//============================================================================
+always @(posedge clk) begin
+    if (resetn == 0)
+        writes_reqd <= 0;
+    else if (DST_AXI_AWVALID & DST_AXI_AWREADY)
+        writes_reqd <= writes_reqd + 1;
+end
+//============================================================================
+
+
+//============================================================================
+// This block counts the number of write transactions acknowledged
+//============================================================================
+always @(posedge clk) begin
+    if (resetn == 0)
+        writes_ackd <= 0;
+    else if (DST_AXI_BVALID & DST_AXI_BREADY)
+        writes_ackd <= writes_ackd + 1;
+end
+//============================================================================
+
+
+
 
 
 endmodule

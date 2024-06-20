@@ -19,8 +19,15 @@
 #                        Added "get_sensor_header"
 #
 # 24-May-24  1.12.0 DWW  Added "get_frame_count"
+#
+# 19-Jun-24  1.14.0 DWW  Added "set_abm_loader_src_addr"
+#                        Added "copy_abm_to_fpga"
+#                        Now declaring "pcireg_device"
 #==============================================================================
-BC_EMU_API_VERSION=1.12.0
+BC_EMU_API_VERSION=1.14.0
+
+# "pcireg" relies on this being set appropriately
+pcireg_device=10ee:903f
 
 #==============================================================================
 # AXI register definitions
@@ -59,7 +66,16 @@ REG_BYTES_PER_USEC=$((0x3000 + 12*4))
       REG_METADATA=$((0x3000 + 16*4))
 
 REG_ABM_HOST_ADDR_H=$((0x4000 + 0*4))
-REG_ABM_HOST_ADDR_L=$((0x4000 + 1*4))     
+REG_ABM_HOST_ADDR_L=$((0x4000 + 1*4))    
+
+AC_BASE=0x5000
+REG_ABM_LDR_SRC_ADDR0_H=$((AC_BASE +  0*4))
+REG_ABM_LDR_SRC_ADDR0_L=$((AC_BASE +  1*4))
+REG_ABM_LDR_SRC_ADDR1_H=$((AC_BASE +  2*4))
+REG_ABM_LDR_SRC_ADDR1_L=$((AC_BASE +  3*4))
+     REG_ABM_LDR_START0=$((AC_BASE +  4*4))
+     REG_ABM_LDR_START1=$((AC_BASE +  5*4))
+     REG_ABM_LDR_STATUS=$((AC_BASE +  6*4))
 
 #==============================================================================
 
@@ -643,3 +659,57 @@ set_nshot_mode()
 }
 #==============================================================================
 
+
+
+
+#==============================================================================
+# $1 = 0 or 1
+# $2 = The address of an ABM in host-RAM
+#==============================================================================
+set_abm_loader_src_addr()
+{
+    local addr_reg
+    
+    # Figure out which command register we want to use
+    if [ "$1" == "0" ]; then
+        addr_reg=$REG_ABM_LDR_SRC_ADDR0_H
+    elif [ "$1" == "1" ]; then
+        addr_reg=$REG_ABM_LDR_SRC_ADDR1_H
+    else
+        echo "Bad parameter [$1] on set_abm_mover_src_addr()" 1>&2
+        return
+    fi
+
+    # Tell the FPGA the address of the buffer to fetch from
+    pcireg -wide $addr_reg $2
+}
+#==============================================================================
+
+
+
+#==============================================================================
+# Copies an ABM from host-RAM to the FPGA's abm-manager
+#==============================================================================
+copy_abm_to_fpga()
+{
+    local cmd_reg
+    
+    # Figure out which command register we want to use
+    if [ "$1" == "0" ]; then
+        cmd_reg=$REG_ABM_LDR_START0
+    elif [ "$1" == "1" ]; then
+        cmd_reg=$REG_ABM_LDR_START1
+    else
+        echo "Bad parameter [$1] on copy_abm_to_fpga()" 1>&2
+        return
+    fi
+
+    # Send the command
+    pcireg $cmd_reg 1
+
+    # Wait for the data to be copied from host-RAM to the FPGA
+    while [ $(read_reg $REG_ABM_LDR_STATUS) -ne 3 ]; do
+        sleep .01
+    done
+}
+#==============================================================================

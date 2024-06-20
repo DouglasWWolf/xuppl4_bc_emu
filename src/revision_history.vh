@@ -48,13 +48,15 @@
 // 23-May-2024  1.12.0 DWW  Now providing register access to mindy-core frame counters
 //
 // 16-Jun-2024  1.13.0 DWW  Upgraded to new cmac_control to set gt_txdiffctrl on CMAC
+//
+// 19-Jun-2024  1.14.0 DWW  Upgraded to the new abm-manager to load ABM from host-RAM
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 13;
+localparam VERSION_MINOR = 14;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 16;
+localparam VERSION_DAY   = 19;
 localparam VERSION_MONTH = 6;
 localparam VERSION_YEAR  = 2024;
 

@@ -127,6 +127,29 @@ data_mover # (.DW(512), .AW(64)) i_abm2pci
     .byte_count      (64'h10_0000),
     .burst_size      (4096),
     .start           (start & (dst_address != 0)),
+    .idle            (),
+
+    .SRC_AXI_AWADDR  (               ),     
+    .SRC_AXI_AWVALID (               ),     
+    .SRC_AXI_AWLEN   (               ),     
+    .SRC_AXI_AWSIZE  (               ),     
+    .SRC_AXI_AWID    (               ),     
+    .SRC_AXI_AWBURST (               ),     
+    .SRC_AXI_AWLOCK  (               ),     
+    .SRC_AXI_AWCACHE (               ),      
+    .SRC_AXI_AWQOS   (               ),   
+    .SRC_AXI_AWPROT  (               ),    
+    .SRC_AXI_AWREADY (               ),     
+
+    .SRC_AXI_WDATA   (               ),     
+    .SRC_AXI_WSTRB   (               ),     
+    .SRC_AXI_WVALID  (               ),   
+    .SRC_AXI_WLAST   (               ),     
+    .SRC_AXI_WREADY  (               ),      
+
+    .SRC_AXI_BRESP   (               ),     
+    .SRC_AXI_BVALID  (               ),     
+    .SRC_AXI_BREADY  (               ),       
 
     .SRC_AXI_ARADDR  (ABM_AXI_ARADDR ),
     .SRC_AXI_ARVALID (ABM_AXI_ARVALID),
@@ -165,7 +188,26 @@ data_mover # (.DW(512), .AW(64)) i_abm2pci
     
     .DST_AXI_BRESP   (PCI_AXI_BRESP  ),     
     .DST_AXI_BVALID  (PCI_AXI_BVALID ),     
-    .DST_AXI_BREADY  (PCI_AXI_BREADY )       
+    .DST_AXI_BREADY  (PCI_AXI_BREADY ),
+
+    .DST_AXI_ARADDR  (               ),
+    .DST_AXI_ARVALID (               ),
+    .DST_AXI_ARPROT  (               ),
+    .DST_AXI_ARLOCK  (               ),
+    .DST_AXI_ARID    (               ),
+    .DST_AXI_ARLEN   (               ),
+    .DST_AXI_ARBURST (               ),
+    .DST_AXI_ARCACHE (               ),
+    .DST_AXI_ARQOS   (               ),
+    .DST_AXI_ARREADY (               ),
+
+    .DST_AXI_RDATA   (               ), 
+    .DST_AXI_RVALID  (               ), 
+    .DST_AXI_RRESP   (               ), 
+    .DST_AXI_RLAST   (               ),  
+    .DST_AXI_RREADY  (               ) 
+
+
 );
 
 
