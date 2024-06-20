@@ -22,7 +22,7 @@ preplace port port-id_idle1 -pg 1 -lvl 0 -x 0 -y 100 -defaultsOSRD -left
 preplace port port-id_idle0 -pg 1 -lvl 0 -x 0 -y 400 -defaultsOSRD -left
 preplace port port-id_load1 -pg 1 -lvl 0 -x 0 -y 80 -defaultsOSRD
 preplace port port-id_load0 -pg 1 -lvl 0 -x 0 -y 420 -defaultsOSRD
-preplace port port-id_load0_wstrobe -pg 1 -lvl 0 -x 0 -y 440 -defaultsOSRD
+preplace port port-id_load_wstrobe -pg 1 -lvl 0 -x 0 -y 440 -defaultsOSRD
 preplace portBus pci_src_addr -pg 1 -lvl 0 -x 0 -y 340 -defaultsOSRD
 preplace inst abm_manager_if -pg 1 -lvl 3 -x 930 -y 120 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 36 37 38 39 35} -defaultsOSRD -pinDir S_AXI right -pinY S_AXI 0R -pinDir clk left -pinY clk 80L -pinDir resetn left -pinY resetn 100L -pinBusDir ram_addr left -pinBusY ram_addr 120L -pinBusDir ram0_data left -pinBusY ram0_data 160L -pinBusDir ram1_data left -pinBusY ram1_data 0L
 preplace inst abm_notifier -pg 1 -lvl 2 -x 600 -y 280 -swap {2 1 3 0 4} -defaultsOSRD -pinDir clk left -pinY clk 40L -pinDir resetn left -pinY resetn 20L -pinDir abm0_updated left -pinY abm0_updated 60L -pinDir abm1_updated left -pinY abm1_updated 0L -pinDir abm_ready right -pinY abm_ready 60R
@@ -57,7 +57,7 @@ levelinfo -pg 1 0 240 600 930 1100
 pagesize -pg 1 -db -bbox -sgen -190 0 1280 580
 ",
    "No Loops_ScaleFactor":"0.893471",
-   "No Loops_TopLeft":"-182,-79",
+   "No Loops_TopLeft":"-182,-94",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 levelinfo -pg 1 0 10

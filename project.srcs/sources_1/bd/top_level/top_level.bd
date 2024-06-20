@@ -8700,7 +8700,7 @@
               "load0": {
                 "direction": "I"
               },
-              "load0_wstrobe": {
+              "load_wstrobe": {
                 "direction": "I"
               }
             },
@@ -11792,7 +11792,7 @@
               },
               "load0_wstrobe_1": {
                 "ports": [
-                  "load0_wstrobe",
+                  "load_wstrobe",
                   "abm_loader_0/load_wstrobe",
                   "abm_loader_1/load_wstrobe"
                 ]
@@ -12204,7 +12204,7 @@
           "abm_mgr_config_start_wstrobe": {
             "ports": [
               "abm_mgr_config/start_wstrobe",
-              "abm_manager/load0_wstrobe"
+              "abm_manager/load_wstrobe"
             ]
           },
           "pcie_axi_aclk": {
