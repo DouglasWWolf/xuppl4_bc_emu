@@ -18,6 +18,7 @@ module abm_mgr_config
     output reg [63:0] pci_src_addr,
     output reg        start0, start1, start_wstrobe,
     input             idle0,  idle1,
+    input      [31:0] abm0_counter, abm1_counter,
 
     //================== This is an AXI4-Lite slave interface ==================
         
@@ -58,6 +59,8 @@ localparam REG_PCI_SRC_ADDRH = 0;
 localparam REG_PCI_SRC_ADDRL = 1;
 localparam REG_START         = 2;
 localparam REG_IDLE          = 3;
+localparam REG_ABM0_COUNTER  = 4;
+localparam REG_ABM1_COUNTER  = 5;
 //==========================================================================
 
 
@@ -174,6 +177,8 @@ always @(posedge clk) begin
             REG_PCI_SRC_ADDRL: ashi_rdata <= pci_src_addr[31:00];
             REG_START        : ashi_rdata <= {start1, start0};
             REG_IDLE         : ashi_rdata <= {idle1, idle0};
+            REG_ABM0_COUNTER : ashi_rdata <= abm0_counter;
+            REG_ABM1_COUNTER : ashi_rdata <= abm1_counter;
 
             // Reads of any other register are a decode-error
             default: ashi_rresp <= DECERR;

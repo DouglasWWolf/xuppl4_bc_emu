@@ -23,8 +23,10 @@
 # 19-Jun-24  1.14.0 DWW  Added "set_abm_loader_src_addr"
 #                        Added "copy_abm_to_fpga"
 #                        Now declaring "pcireg_device"
+#
+# 20-Jun-24  1.15.0 DWW  Added "get_abm_count"
 #==============================================================================
-BC_EMU_API_VERSION=1.14.0
+BC_EMU_API_VERSION=1.15.0
 
 # "pcireg" relies on this being set appropriately
 pcireg_device=10ee:903f
@@ -69,10 +71,12 @@ REG_ABM_HOST_ADDR_H=$((0x4000 + 0*4))
 REG_ABM_HOST_ADDR_L=$((0x4000 + 1*4))    
 
 AC_BASE=0x5000
-REG_ABM_LDR_SRC_ADDR_H=$((AC_BASE +  0*4))
-REG_ABM_LDR_SRC_ADDR_L=$((AC_BASE +  1*4))
-     REG_ABM_LDR_START=$((AC_BASE +  2*4))
-    REG_ABM_LDR_STATUS=$((AC_BASE +  3*4))
+REG_ABM_LDR_SRC_ADDR_H=$((AC_BASE + 0*4))
+REG_ABM_LDR_SRC_ADDR_L=$((AC_BASE + 1*4))
+     REG_ABM_LDR_START=$((AC_BASE + 2*4))
+    REG_ABM_LDR_STATUS=$((AC_BASE + 3*4))
+      REG_ABM_COUNTER0=$((AC_BASE + 4*4))
+      REG_ABM_COUNTER1=$((AC_BASE + 5*4))
 
 #==============================================================================
 
@@ -577,8 +581,8 @@ get_pcs_status()
     local eth1_pcs_lock=0
 
     # These two bits contain the PCS lock status of the QSFP ports
-    local lock0_bit=$((1<< 0))
-    local lock1_bit=$((1<<16))
+    local lock0_bit=$((0x00001))
+    local lock1_bit=$((0x10000))
 
     # Read the status register
     local eth_status=$(read_reg 0x500)
@@ -675,5 +679,28 @@ copy_abm_to_fpga()
     while [ $(read_reg $REG_ABM_LDR_STATUS) -ne 3 ]; do
         sleep .01
     done
+}
+#==============================================================================
+
+
+
+#==============================================================================
+# Fetches the count of how many ABMs were received
+#
+# $1 = 0 or 1
+#==============================================================================
+get_abm_counter()
+{
+    if [ "$1" == "0" ]; then
+        read_reg $REG_ABM_COUNTER0
+        return
+    fi
+
+    if [ "$1" == "1" ]; then
+        read_reg $REG_ABM_COUNTER1
+        return
+    fi
+
+    echo "Bad parameter [$1] on get_abm_counter()" 1>&2
 }
 #==============================================================================
