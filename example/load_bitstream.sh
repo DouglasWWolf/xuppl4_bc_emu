@@ -1,1 +1,1 @@
-load_bitstream -hot_reset -config load_jtag.conf -part xcvu3p_0 xuppl4_bc_emu
+load_bitstream -hot_reset -config load_jtag.conf -part xcvu3p_0 xuppl4_bc_emu.bit
