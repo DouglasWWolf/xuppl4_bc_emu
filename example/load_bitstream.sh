@@ -1,1 +1,3 @@
-load_bitstream -hot_reset -config load_jtag.conf -part xcvu3p_0 -pci_id 10ee:903f -vivado $VIVADO xuppl4_bc_emu.bit
+filename=$1
+test -z $filename && filename=xuppl4_bc_emu.bit
+load_bitstream -hot_reset -part xcvu3p_0 -pci_device 10ee:903f -vivado $VIVADO $filename
