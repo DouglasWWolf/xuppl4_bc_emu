@@ -4,6 +4,9 @@
 #  contiguous RAM area on your PC
 #
 
+physram 0x1_0010_0000 -load random.dat
+physram 0x1_0020_0000 -load random.dat
+physram 0x1_0000_0000 -clear
 
 source bc_emu_api.sh
 

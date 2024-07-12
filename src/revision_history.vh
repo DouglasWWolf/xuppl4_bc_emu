@@ -52,14 +52,16 @@
 // 19-Jun-2024  1.14.0 DWW  Upgraded to the new abm-manager to load ABM from host-RAM
 //
 // 20-Jun-2024  1.15.0 DWW  Added registers that count the number of ABMs received
+//
+// 12-Jul-2024  1.16.0 DWW  abm-manager logic now includes data-mover to host-RAM
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 15;
+localparam VERSION_MINOR = 16;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 20;
-localparam VERSION_MONTH = 6;
+localparam VERSION_DAY   = 12;
+localparam VERSION_MONTH = 7;
 localparam VERSION_YEAR  = 2024;
 
 localparam RTL_TYPE      = 912018;
