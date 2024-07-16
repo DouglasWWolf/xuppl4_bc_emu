@@ -11300,6 +11300,12 @@
                         "left": "7",
                         "right": "0"
                       },
+                      "ARSIZE": {
+                        "physical_name": "S0_AXI_ARSIZE",
+                        "direction": "I",
+                        "left": "2",
+                        "right": "0"
+                      },
                       "ARBURST": {
                         "physical_name": "S0_AXI_ARBURST",
                         "direction": "I",
@@ -11583,6 +11589,12 @@
                         "physical_name": "S1_AXI_ARLEN",
                         "direction": "I",
                         "left": "7",
+                        "right": "0"
+                      },
+                      "ARSIZE": {
+                        "physical_name": "S1_AXI_ARSIZE",
+                        "direction": "I",
+                        "left": "2",
                         "right": "0"
                       },
                       "ARBURST": {
@@ -11933,6 +11945,12 @@
                         "left": "7",
                         "right": "0"
                       },
+                      "ARSIZE": {
+                        "physical_name": "S0_AXI_ARSIZE",
+                        "direction": "I",
+                        "left": "2",
+                        "right": "0"
+                      },
                       "ARBURST": {
                         "physical_name": "S0_AXI_ARBURST",
                         "direction": "I",
@@ -12216,6 +12234,12 @@
                         "physical_name": "S1_AXI_ARLEN",
                         "direction": "I",
                         "left": "7",
+                        "right": "0"
+                      },
+                      "ARSIZE": {
+                        "physical_name": "S1_AXI_ARSIZE",
+                        "direction": "I",
+                        "left": "2",
                         "right": "0"
                       },
                       "ARBURST": {
