@@ -59,13 +59,16 @@
 //                          and ARID.
 //
 // 17-Jul-2024  1.17.1 DWW  Minor changes to abm_manager to satisfy Cadence
+//
+// 26-Jul-2024  1.18.0 DWW  Minor change to bring "abm_mover" module outside of the 
+//                          "abm_manager" heirarchy.   
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 17;
-localparam VERSION_BUILD = 1;
+localparam VERSION_MINOR = 18;
+localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 17;
+localparam VERSION_DAY   = 26;
 localparam VERSION_MONTH = 7;
 localparam VERSION_YEAR  = 2024;
 
