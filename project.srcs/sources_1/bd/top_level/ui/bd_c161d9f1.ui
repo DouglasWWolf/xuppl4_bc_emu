@@ -40,6 +40,7 @@ preplace netloc eth_resetn_1 1 1 1 N 380
 preplace netloc eth_resetn_2 1 1 1 N 150
 preplace netloc init_clk_0_1 1 0 1 40 170n
 preplace netloc S_AXI_BP0_1 1 0 1 N 130
+preplace netloc S_AXI_BP1_1 1 0 1 N 340
 preplace netloc S_AXI_ETH_STATUS_1 1 2 1 N 470
 preplace netloc axis_tx0_1 1 0 1 NJ 90
 preplace netloc axis_tx1_1 1 0 1 NJ 360
@@ -51,7 +52,6 @@ preplace netloc gt_ref_clk_0_1 1 0 1 NJ 70
 preplace netloc qsfp_clk_0_1 1 0 1 NJ 300
 preplace netloc rdmx_0_M_AXI 1 2 1 NJ 110
 preplace netloc rdmx_1_M_AXI 1 2 1 NJ 300
-preplace netloc S_AXI_BP1_1 1 0 1 N 340
 levelinfo -pg 1 0 200 600 780
 pagesize -pg 1 -db -bbox -sgen -130 0 970 630
 ",
