@@ -23,6 +23,7 @@ preplace inst abm_manager -pg 1 -lvl 2 -x 510 -y 60 -defaultsOSRD -pinDir S_AXI_
 preplace inst abm_mgr_config -pg 1 -lvl 1 -x 190 -y 200 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 23 26 25 27 24 22 29 28} -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinBusDir pci_src_addr right -pinBusY pci_src_addr 20R -pinDir start0 right -pinY start0 80R -pinDir start1 right -pinY start1 60R -pinDir start_wstrobe right -pinY start_wstrobe 100R -pinDir idle0 right -pinY idle0 40R -pinDir idle1 right -pinY idle1 0R -pinBusDir abm0_counter right -pinBusY abm0_counter 140R -pinBusDir abm1_counter right -pinBusY abm1_counter 120R
 preplace netloc abm_manager_abm0_counter 1 1 1 N 340
 preplace netloc abm_manager_abm1_counter 1 1 1 N 320
+preplace netloc abm_manager_abm_ready 1 2 1 N 100
 preplace netloc abm_manager_idle0 1 1 1 N 240
 preplace netloc abm_manager_idle1 1 1 1 N 200
 preplace netloc abm_mgr_config_pci_src_addr 1 1 1 N 220
@@ -31,13 +32,12 @@ preplace netloc abm_mgr_config_start1 1 1 1 N 260
 preplace netloc abm_mgr_config_start_wstrobe 1 1 1 N 300
 preplace netloc pcie_axi_aclk 1 0 2 20 120 NJ
 preplace netloc source_200Mhz_resetn 1 0 2 40 140 NJ
-preplace netloc abm_manager_abm_ready 1 2 1 N 100
+preplace netloc Conn1 1 0 2 NJ 100 NJ
 preplace netloc abm_manager_S_AXI_RAM0_PCI 1 2 1 NJ 80
 preplace netloc abm_manager_S_AXI_RAM1_PCI 1 2 1 NJ 60
 preplace netloc ethernet_M_AXI_RDMX0 1 0 2 NJ 80 NJ
 preplace netloc ethernet_M_AXI_RDMX1 1 0 2 NJ 60 NJ
 preplace netloc smartconnect_M07_AXI 1 0 1 NJ 200
-preplace netloc Conn1 1 0 2 NJ 100 NJ
 levelinfo -pg 1 0 190 510 700
 pagesize -pg 1 -db -bbox -sgen -180 0 880 400
 ",

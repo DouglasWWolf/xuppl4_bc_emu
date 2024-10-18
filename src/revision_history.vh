@@ -62,14 +62,16 @@
 //
 // 26-Jul-2024  1.18.0 DWW  Minor change to bring "abm_mover" module outside of the 
 //                          "abm_manager" heirarchy.   
+//
+// 17-Oct-2024  1.19.0 DWW  Added cmac_bp_monitor (CMAC backpressure monitor)
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 18;
+localparam VERSION_MINOR = 19;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 26;
-localparam VERSION_MONTH = 7;
+localparam VERSION_DAY   = 17;
+localparam VERSION_MONTH = 10;
 localparam VERSION_YEAR  = 2024;
 
 localparam RTL_TYPE      = 912018;
