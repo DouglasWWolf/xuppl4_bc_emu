@@ -14732,11 +14732,6 @@
         ]
       }
     },
-    "comments": {
-      "/": {
-        "comment_1": "Enter Comments here"
-      }
-    },
     "addressing": {
       "/pcie/pcie_bridge": {
         "address_spaces": {
