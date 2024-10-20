@@ -18,20 +18,20 @@ preplace inst pkt_counter_ctl -pg 1 -lvl 3 -x 680 -y 140 -swap {0 1 2 3 4 5 6 7 
 preplace inst axi_clock_converter -pg 1 -lvl 2 -x 370 -y 60 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 43 42} -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir M_AXI right -pinY M_AXI 80R -pinDir s_axi_aclk left -pinY s_axi_aclk 20L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 40L -pinDir m_axi_aclk left -pinY m_axi_aclk 80L -pinDir m_axi_aresetn left -pinY m_axi_aresetn 60L
 preplace inst one -pg 1 -lvl 1 -x 100 -y 140 -defaultsOSRD -pinBusDir dout right -pinBusY dout 0R
 preplace netloc cmac_clk_1 1 0 3 NJ 200 200 200 NJ
+preplace netloc ns_rxpkt_counter_bad_packets 1 2 1 N 500
+preplace netloc ns_rxpkt_counter_len4160_packets 1 2 1 N 480
+preplace netloc ns_rxpkt_counter_other_packets 1 2 1 N 520
+preplace netloc ns_txpkt_counter_0_fc_packets 1 2 1 N 320
 preplace netloc ns_txpkt_counter_0_fd_packets 1 2 1 N 280
 preplace netloc ns_txpkt_counter_0_md_packets 1 2 1 N 300
-preplace netloc ns_txpkt_counter_0_fc_packets 1 2 1 N 320
 preplace netloc ns_txpkt_counter_0_other_packets 1 2 1 N 340
-preplace netloc pkt_counter_ctl_resetn_out 1 2 1 540 360n
-preplace netloc ns_rxpkt_counter_len4160_packets 1 2 1 N 480
-preplace netloc ns_rxpkt_counter_bad_packets 1 2 1 N 500
-preplace netloc ns_rxpkt_counter_other_packets 1 2 1 N 520
-preplace netloc sys_clk_1 1 0 2 NJ 80 NJ
 preplace netloc one_dout 1 1 2 180 220 NJ
+preplace netloc pkt_counter_ctl_resetn_out 1 2 1 540 360n
+preplace netloc sys_clk_1 1 0 2 NJ 80 NJ
 preplace netloc Conn 1 0 2 NJ 280 NJ
 preplace netloc Conn1 1 0 2 NJ 460 NJ
-preplace netloc axi_clock_converter_0_M_AXI 1 2 1 N 140
 preplace netloc S_AXI_1 1 0 2 NJ 60 NJ
+preplace netloc axi_clock_converter_0_M_AXI 1 2 1 N 140
 levelinfo -pg 1 0 100 370 680 820
 pagesize -pg 1 -db -bbox -sgen -130 0 820 580
 ",
@@ -49,4 +49,4 @@ levelinfo -pg 1 0 190 370
 pagesize -pg 1 -db -bbox -sgen -130 0 370 320
 "
 }
-
+0

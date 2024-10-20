@@ -64,13 +64,15 @@
 //                          "abm_manager" heirarchy.   
 //
 // 17-Oct-2024  1.19.0 DWW  Added cmac_bp_monitor (CMAC backpressure monitor)
+//
+// 20-Oct-2024  1.20.0 DWW  Added packet counters on the CMAC TX and RX interfaces
 //================================================================================================
 localparam VERSION_MAJOR = 1;
-localparam VERSION_MINOR = 19;
+localparam VERSION_MINOR = 20;
 localparam VERSION_BUILD = 0;
 localparam VERSION_RCAND = 0;
 
-localparam VERSION_DAY   = 17;
+localparam VERSION_DAY   = 20;
 localparam VERSION_MONTH = 10;
 localparam VERSION_YEAR  = 2024;
 
