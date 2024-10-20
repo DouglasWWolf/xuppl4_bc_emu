@@ -20,6 +20,7 @@ preplace inst axi_clock_converter -pg 1 -lvl 2 -x 370 -y 60 -swap {0 1 2 3 4 5 6
 preplace inst one -pg 1 -lvl 1 -x 100 -y 140 -defaultsOSRD -pinBusDir dout right -pinBusY dout 0R
 preplace inst cmac_bp_monitor_ctl -pg 1 -lvl 3 -x 700 -y 140 -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 60L -pinDir resetn left -pinY resetn 80L -pinDir resetn_out right -pinY resetn_out 0R -pinDir bp_valid left -pinY bp_valid 100L -pinBusDir bp_length left -pinBusY bp_length 120L -pinDir bp_rxad left -pinY bp_rxad 140L -pinBusDir bp_timestamp left -pinBusY bp_timestamp 160L -pinDir bp_next right -pinY bp_next 20R
 preplace netloc cmac_bp_monitor_ct_bp_next 1 3 1 NJ 160
+preplace netloc cmac_bp_monitor_ctl_resetn_out 1 3 1 NJ 140
 preplace netloc cmac_bp_monitor_fifo_bp 1 0 3 NJ 260 NJ 260 NJ
 preplace netloc cmac_bp_monitor_fifo_bp_rxad 1 0 3 NJ 280 NJ 280 NJ
 preplace netloc cmac_bp_monitor_fifo_bp_ts 1 0 3 NJ 300 NJ 300 NJ
@@ -27,7 +28,6 @@ preplace netloc cmac_bp_monitor_fifo_valid 1 0 3 NJ 240 NJ 240 NJ
 preplace netloc cmac_gt_rxusrclk2 1 0 3 NJ 200 200 200 NJ
 preplace netloc one_dout 1 1 2 180 220 NJ
 preplace netloc sys_clk_1 1 0 2 NJ 80 NJ
-preplace netloc cmac_bp_monitor_ctl_resetn_out 1 3 1 NJ 140
 preplace netloc S_AXI_BP_1 1 0 2 NJ 60 NJ
 preplace netloc axi_clock_converter_0_M_AXI 1 2 1 N 140
 levelinfo -pg 1 0 100 370 700 880
