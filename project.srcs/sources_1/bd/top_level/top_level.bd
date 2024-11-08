@@ -955,7 +955,7 @@
                             "value_src": "constant"
                           },
                           "AWUSER_WIDTH": {
-                            "value": "0",
+                            "value": "32",
                             "value_src": "constant"
                           },
                           "ARUSER_WIDTH": {
@@ -1092,6 +1092,12 @@
                             "physical_name": "M_AXI_AWQOS",
                             "direction": "O",
                             "left": "3",
+                            "right": "0"
+                          },
+                          "AWUSER": {
+                            "physical_name": "M_AXI_AWUSER",
+                            "direction": "O",
+                            "left": "31",
                             "right": "0"
                           },
                           "AWVALID": {
@@ -1474,7 +1480,7 @@
                             "value_src": "constant"
                           },
                           "AWUSER_WIDTH": {
-                            "value": "0",
+                            "value": "32",
                             "value_src": "constant"
                           },
                           "ARUSER_WIDTH": {
@@ -1611,6 +1617,12 @@
                             "physical_name": "M_AXI_AWQOS",
                             "direction": "O",
                             "left": "3",
+                            "right": "0"
+                          },
+                          "AWUSER": {
+                            "physical_name": "M_AXI_AWUSER",
+                            "direction": "O",
+                            "left": "31",
                             "right": "0"
                           },
                           "AWVALID": {
@@ -2674,8 +2686,8 @@
                         "value_src": "auto"
                       },
                       "AWUSER_WIDTH": {
-                        "value": "0",
-                        "value_src": "constant"
+                        "value": "32",
+                        "value_src": "auto"
                       },
                       "ARUSER_WIDTH": {
                         "value": "0",
@@ -2805,6 +2817,12 @@
                         "physical_name": "S_AXI_AWQOS",
                         "direction": "I",
                         "left": "3",
+                        "right": "0"
+                      },
+                      "AWUSER": {
+                        "physical_name": "S_AXI_AWUSER",
+                        "direction": "I",
+                        "left": "31",
                         "right": "0"
                       },
                       "AWVALID": {
@@ -2987,9 +3005,6 @@
                   },
                   "packet_data_fifo_full": {
                     "direction": "O"
-                  },
-                  "addr_fifo_debug": {
-                    "direction": "O"
                   }
                 }
               },
@@ -3108,8 +3123,8 @@
                         "value_src": "auto"
                       },
                       "AWUSER_WIDTH": {
-                        "value": "0",
-                        "value_src": "constant"
+                        "value": "32",
+                        "value_src": "auto"
                       },
                       "ARUSER_WIDTH": {
                         "value": "0",
@@ -3239,6 +3254,12 @@
                         "physical_name": "S_AXI_AWQOS",
                         "direction": "I",
                         "left": "3",
+                        "right": "0"
+                      },
+                      "AWUSER": {
+                        "physical_name": "S_AXI_AWUSER",
+                        "direction": "I",
+                        "left": "31",
                         "right": "0"
                       },
                       "AWVALID": {
@@ -3420,9 +3441,6 @@
                     }
                   },
                   "packet_data_fifo_full": {
-                    "direction": "O"
-                  },
-                  "addr_fifo_debug": {
                     "direction": "O"
                   }
                 }

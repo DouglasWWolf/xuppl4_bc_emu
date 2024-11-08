@@ -3,13 +3,13 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
   #Adding Page
   set Page_0 [ipgui::add_page $IPINST -name "Page 0"]
-  ipgui::add_param $IPINST -name "ADDR_WBITS" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "AW" -parent ${Page_0}
   ipgui::add_param $IPINST -name "DATA_FIFO_DEPTH" -parent ${Page_0}
-  ipgui::add_param $IPINST -name "DATA_WBITS" -parent ${Page_0}
   ipgui::add_param $IPINST -name "DST_IP0" -parent ${Page_0}
   ipgui::add_param $IPINST -name "DST_IP1" -parent ${Page_0}
   ipgui::add_param $IPINST -name "DST_IP2" -parent ${Page_0}
   ipgui::add_param $IPINST -name "DST_IP3" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "DW" -parent ${Page_0}
   ipgui::add_param $IPINST -name "FIFO_CLOCK_MODE" -parent ${Page_0}
   ipgui::add_param $IPINST -name "MAX_PACKET_COUNT" -parent ${Page_0}
   ipgui::add_param $IPINST -name "REMOTE_SERVER_PORT" -parent ${Page_0}
@@ -19,16 +19,17 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "SRC_IP2" -parent ${Page_0}
   ipgui::add_param $IPINST -name "SRC_IP3" -parent ${Page_0}
   ipgui::add_param $IPINST -name "SRC_MAC" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "UW" -parent ${Page_0}
 
 
 }
 
-proc update_PARAM_VALUE.ADDR_WBITS { PARAM_VALUE.ADDR_WBITS } {
-	# Procedure called to update ADDR_WBITS when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.AW { PARAM_VALUE.AW } {
+	# Procedure called to update AW when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.ADDR_WBITS { PARAM_VALUE.ADDR_WBITS } {
-	# Procedure called to validate ADDR_WBITS
+proc validate_PARAM_VALUE.AW { PARAM_VALUE.AW } {
+	# Procedure called to validate AW
 	return true
 }
 
@@ -38,15 +39,6 @@ proc update_PARAM_VALUE.DATA_FIFO_DEPTH { PARAM_VALUE.DATA_FIFO_DEPTH } {
 
 proc validate_PARAM_VALUE.DATA_FIFO_DEPTH { PARAM_VALUE.DATA_FIFO_DEPTH } {
 	# Procedure called to validate DATA_FIFO_DEPTH
-	return true
-}
-
-proc update_PARAM_VALUE.DATA_WBITS { PARAM_VALUE.DATA_WBITS } {
-	# Procedure called to update DATA_WBITS when any of the dependent parameters in the arguments change
-}
-
-proc validate_PARAM_VALUE.DATA_WBITS { PARAM_VALUE.DATA_WBITS } {
-	# Procedure called to validate DATA_WBITS
 	return true
 }
 
@@ -83,6 +75,15 @@ proc update_PARAM_VALUE.DST_IP3 { PARAM_VALUE.DST_IP3 } {
 
 proc validate_PARAM_VALUE.DST_IP3 { PARAM_VALUE.DST_IP3 } {
 	# Procedure called to validate DST_IP3
+	return true
+}
+
+proc update_PARAM_VALUE.DW { PARAM_VALUE.DW } {
+	# Procedure called to update DW when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.DW { PARAM_VALUE.DW } {
+	# Procedure called to validate DW
 	return true
 }
 
@@ -167,15 +168,29 @@ proc validate_PARAM_VALUE.SRC_MAC { PARAM_VALUE.SRC_MAC } {
 	return true
 }
 
-
-proc update_MODELPARAM_VALUE.DATA_WBITS { MODELPARAM_VALUE.DATA_WBITS PARAM_VALUE.DATA_WBITS } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.DATA_WBITS}] ${MODELPARAM_VALUE.DATA_WBITS}
+proc update_PARAM_VALUE.UW { PARAM_VALUE.UW } {
+	# Procedure called to update UW when any of the dependent parameters in the arguments change
 }
 
-proc update_MODELPARAM_VALUE.ADDR_WBITS { MODELPARAM_VALUE.ADDR_WBITS PARAM_VALUE.ADDR_WBITS } {
+proc validate_PARAM_VALUE.UW { PARAM_VALUE.UW } {
+	# Procedure called to validate UW
+	return true
+}
+
+
+proc update_MODELPARAM_VALUE.DW { MODELPARAM_VALUE.DW PARAM_VALUE.DW } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.ADDR_WBITS}] ${MODELPARAM_VALUE.ADDR_WBITS}
+	set_property value [get_property value ${PARAM_VALUE.DW}] ${MODELPARAM_VALUE.DW}
+}
+
+proc update_MODELPARAM_VALUE.AW { MODELPARAM_VALUE.AW PARAM_VALUE.AW } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.AW}] ${MODELPARAM_VALUE.AW}
+}
+
+proc update_MODELPARAM_VALUE.UW { MODELPARAM_VALUE.UW PARAM_VALUE.UW } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.UW}] ${MODELPARAM_VALUE.UW}
 }
 
 proc update_MODELPARAM_VALUE.FIFO_CLOCK_MODE { MODELPARAM_VALUE.FIFO_CLOCK_MODE PARAM_VALUE.FIFO_CLOCK_MODE } {
