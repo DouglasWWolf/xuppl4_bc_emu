@@ -25,8 +25,10 @@
 #                        Now declaring "pcireg_device"
 #
 # 20-Jun-24  1.15.0 DWW  Added "get_abm_count"
+#
+# 21-Apr-25  1.17.0 DWW  General cleanup for modern versions of 'pcireg'
 #==============================================================================
-BC_EMU_API_VERSION=1.15.0
+BC_EMU_API_VERSION=1.17.0
 
 # "pcireg" relies on this being set appropriately
 pcireg_device=10ee:903f
@@ -81,37 +83,7 @@ REG_ABM_LDR_SRC_ADDR_L=$((AC_BASE + 1*4))
 #==============================================================================
 
 
-#==============================================================================
-# This strips underscores from a string and converts it to decimal
-#==============================================================================
-strip_underscores()
-{
-    local stripped=$(echo $1 | sed 's/_//g')
-    echo $((stripped))
-}
-#==============================================================================
 
-
-#==============================================================================
-# This displays the upper 32 bits of an integer
-#==============================================================================
-upper32()
-{
-    local value=$(strip_underscores $1)
-    echo $(((value >> 32) & 0xFFFFFFFF))
-}
-#==============================================================================
-
-
-#==============================================================================
-# This displays the lower 32 bits of an integer
-#==============================================================================
-lower32()
-{
-    local value=$(strip_underscores $1)
-    echo $((value & 0xFFFFFFFF))
-}
-#==============================================================================
 
 
 #==============================================================================
@@ -119,14 +91,7 @@ lower32()
 #==============================================================================
 read_reg()
 {
-    # Capture the value of the AXI register
-    text=$(pcireg -dec $1)
-
-    # Convert the text into a number
-    value=$((text))
-
-    # Hand the value to the caller
-    echo $value
+    pcireg -dec $1
 }
 #==============================================================================
 
@@ -175,8 +140,7 @@ is_bitstream_loaded()
 #==============================================================================
 set_frame_size()
 {
-    local value=$(strip_underscores $1)
-    pcireg $REG_FRAME_SIZE $value
+    pcireg $REG_FRAME_SIZE $1
 }
 #==============================================================================
 
@@ -205,8 +169,7 @@ get_ping_pong_group()
 #==============================================================================
 set_packet_size()
 {
-    local value=$(strip_underscores $1)    
-    pcireg $REG_PACKET_SIZE $value
+    pcireg $REG_PACKET_SIZE $1
 }
 #==============================================================================
 
@@ -251,12 +214,10 @@ get_rate_limit()
 define_fd_ring()
 {
     # Store the address of the ring buffer
-    pcireg $REG_RFD_ADDR_H $(upper32 $1)
-    pcireg $REG_RFD_ADDR_L $(lower32 $1)
+    pcireg -wide $REG_RFD_ADDR_H $1
 
     # Store the size of the ring buffer
-    pcireg $REG_RFD_SIZE_H $(upper32 $2)
-    pcireg $REG_RFD_SIZE_L $(lower32 $2)
+    pcireg -wide $REG_RFD_SIZE_H $2
 }
 #==============================================================================
 
@@ -270,12 +231,10 @@ define_fd_ring()
 define_md_ring()
 {
     # Store the address of the ring buffer
-    pcireg $REG_RMD_ADDR_H $(upper32 $1)
-    pcireg $REG_RMD_ADDR_L $(lower32 $1)
+    pcireg -wide $REG_RMD_ADDR_H $1
 
     # Store the size of the ring buffer
-    pcireg $REG_RMD_SIZE_H $(upper32 $2)
-    pcireg $REG_RMD_SIZE_L $(lower32 $2)
+    pcireg -wide $REG_RMD_SIZE_H $2
 }
 #==============================================================================
 
@@ -285,8 +244,7 @@ define_md_ring()
 #==============================================================================
 set_frame_counter_addr()
 {
-    pcireg $REG_RFC_ADDR_H $(upper32 $1)
-    pcireg $REG_RFC_ADDR_L $(lower32 $1)        
+    pcireg -wide $REG_RFC_ADDR_H $1
 }
 #==============================================================================
 
@@ -296,8 +254,7 @@ set_frame_counter_addr()
 #==============================================================================
 set_abm_addr()
 {
-    pcireg $REG_ABM_HOST_ADDR_H $(upper32 $1)
-    pcireg $REG_ABM_HOST_ADDR_L $(lower32 $1)
+    pcireg -wide $REG_ABM_HOST_ADDR_H $1
 }
 #==============================================================================
 
@@ -319,7 +276,7 @@ enable_sensor_header()
 #==============================================================================
 set_sensor_header()
 {
-    pcireg $REG_SENSOR_HEADER $(strip_underscores $1)    
+    pcireg $REG_SENSOR_HEADER $1
 }
 #==============================================================================
 
@@ -395,7 +352,7 @@ idle_system()
 set_metadata()
 {
     local index=$1
-    local value=$(strip_underscores $2)
+    local value=$2
 
     if [ -z $index ] || [ -z $value ]; then
         echo "Missing parameter on set_metacommand()" 2>&1
