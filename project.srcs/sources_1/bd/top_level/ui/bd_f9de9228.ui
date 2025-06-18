@@ -1,0 +1,52 @@
+{
+   "ActiveEmotionalView":"No Loops",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-637,-168",
+   "DisplayTieOff":"1",
+   "ExpandedHierarchyInLayout":"",
+   "No Loops_ExpandedHierarchyInLayout":"",
+   "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port tx_monitor -pg 1 -lvl 0 -x -30 -y 280 -defaultsOSRD
+preplace port rx_monitor -pg 1 -lvl 0 -x -30 -y 460 -defaultsOSRD
+preplace port S_AXI -pg 1 -lvl 0 -x -30 -y 60 -defaultsOSRD
+preplace port port-id_cmac_clk -pg 1 -lvl 0 -x -30 -y 200 -defaultsOSRD
+preplace port port-id_sys_clk -pg 1 -lvl 0 -x -30 -y 80 -defaultsOSRD
+preplace inst ns_rxpkt_counter -pg 1 -lvl 2 -x 370 -y 500 -defaultsOSRD -pinDir monitor left -pinY monitor 0L -pinDir clk left -pinY clk 20L -pinDir aresetn right -pinY aresetn 0R -pinBusDir len4160_packets right -pinBusY len4160_packets 20R -pinBusDir bad_packets right -pinBusY bad_packets 40R -pinBusDir other_packets right -pinBusY other_packets 60R
+preplace inst ns_txpkt_counter -pg 1 -lvl 2 -x 370 -y 280 -swap {0 1 2 3 4 5 6 11 7 8 9 10} -defaultsOSRD -pinDir monitor left -pinY monitor 0L -pinDir monitor.monitor_tdata left -pinY monitor.monitor_tdata 20L -pinDir monitor.monitor_tkeep left -pinY monitor.monitor_tkeep 40L -pinDir monitor.monitor_tlast left -pinY monitor.monitor_tlast 60L -pinDir monitor.monitor_tvalid left -pinY monitor.monitor_tvalid 80L -pinDir monitor.monitor_tready left -pinY monitor.monitor_tready 100L -pinDir clk left -pinY clk 120L -pinDir aresetn right -pinY aresetn 80R -pinBusDir fd_packets right -pinBusY fd_packets 0R -pinBusDir md_packets right -pinBusY md_packets 20R -pinBusDir fc_packets right -pinBusY fc_packets 40R -pinBusDir other_packets right -pinBusY other_packets 60R
+preplace inst pkt_counter_ctl -pg 1 -lvl 3 -x 770 -y 140 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 27 28 29 26} -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 60L -pinDir resetn left -pinY resetn 80L -pinBusDir tx_fd_packets left -pinBusY tx_fd_packets 140L -pinBusDir tx_md_packets left -pinBusY tx_md_packets 160L -pinBusDir tx_fc_packets left -pinBusY tx_fc_packets 180L -pinBusDir tx_other_packets left -pinBusY tx_other_packets 200L -pinBusDir rx_4160_packets left -pinBusY rx_4160_packets 340L -pinBusDir rx_bad_packets left -pinBusY rx_bad_packets 360L -pinBusDir rx_other_packets left -pinBusY rx_other_packets 380L -pinDir resetn_out left -pinY resetn_out 220L
+preplace inst axi_clock_converter -pg 1 -lvl 2 -x 370 -y 60 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 43 42} -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir M_AXI right -pinY M_AXI 80R -pinDir s_axi_aclk left -pinY s_axi_aclk 20L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 40L -pinDir m_axi_aclk left -pinY m_axi_aclk 80L -pinDir m_axi_aresetn left -pinY m_axi_aresetn 60L
+preplace inst one -pg 1 -lvl 1 -x 70 -y 140 -defaultsOSRD -pinBusDir dout right -pinBusY dout 0R
+preplace netloc cmac_clk_1 1 0 3 NJ 200 170 200 NJ
+preplace netloc ns_rxpkt_counter_bad_packets 1 2 1 610 500n
+preplace netloc ns_rxpkt_counter_len4160_packets 1 2 1 590 480n
+preplace netloc ns_rxpkt_counter_other_packets 1 2 1 630 520n
+preplace netloc ns_txpkt_counter_0_fc_packets 1 2 1 N 320
+preplace netloc ns_txpkt_counter_0_fd_packets 1 2 1 N 280
+preplace netloc ns_txpkt_counter_0_md_packets 1 2 1 N 300
+preplace netloc ns_txpkt_counter_0_other_packets 1 2 1 N 340
+preplace netloc one_dout 1 1 2 150 220 NJ
+preplace netloc pkt_counter_ctl_resetn_out 1 2 1 570 360n
+preplace netloc sys_clk_1 1 0 2 NJ 80 NJ
+preplace netloc Conn 1 0 2 NJ 280 NJ
+preplace netloc Conn1 1 0 2 NJ 460 150J
+preplace netloc S_AXI_1 1 0 2 NJ 60 NJ
+preplace netloc axi_clock_converter_0_M_AXI 1 2 1 N 140
+levelinfo -pg 1 -30 70 370 770 910
+pagesize -pg 1 -db -bbox -sgen -160 0 910 620
+",
+   "No Loops_ScaleFactor":"1.0",
+   "No Loops_TopLeft":"-405,-52",
+   "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port tx_monitor -pg 1 -lvl 0 -x 0 -y 70 -defaultsOSRD
+preplace port rx_monitor -pg 1 -lvl 0 -x 0 -y 220 -defaultsOSRD
+preplace inst ns_rxpkt_counter -pg 1 -lvl 1 -x 190 -y 240 -defaultsOSRD
+preplace inst ns_txpkt_counter_0 -pg 1 -lvl 1 -x 190 -y 90 -defaultsOSRD
+preplace netloc Conn 1 0 1 N 70
+preplace netloc Conn1 1 0 1 N 220
+levelinfo -pg 1 0 190 370
+pagesize -pg 1 -db -bbox -sgen -130 0 370 320
+"
+}
+0

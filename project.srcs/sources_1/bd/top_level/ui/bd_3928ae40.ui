@@ -1,0 +1,80 @@
+{
+   "ActiveEmotionalView":"No Loops",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-271,-146",
+   "Display-PortTypeClock":"true",
+   "Display-PortTypeOthers":"true",
+   "DisplayTieOff":"1",
+   "ExpandedHierarchyInLayout":"",
+   "No Loops_ExpandedHierarchyInLayout":"",
+   "No Loops_Layers":"/abm_manager/pcie_axi_aclk:true|",
+   "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port S_AXI -pg 1 -lvl 0 -x 0 -y 200 -defaultsOSRD
+preplace port S_AXI_RAM1_ETH -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD
+preplace port S_AXI_RAM0_ETH -pg 1 -lvl 0 -x 0 -y 80 -defaultsOSRD
+preplace port M_AXI_RAM1_PCI -pg 1 -lvl 3 -x 700 -y 60 -defaultsOSRD
+preplace port M_AXI_RAM0_PCI -pg 1 -lvl 3 -x 700 -y 80 -defaultsOSRD
+preplace port S_AXI_ABM -pg 1 -lvl 0 -x 0 -y 100 -defaultsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 220 -defaultsOSRD
+preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 240 -defaultsOSRD
+preplace port port-id_abm_ready -pg 1 -lvl 3 -x 700 -y 100 -defaultsOSRD
+preplace inst abm_manager -pg 1 -lvl 2 -x 510 -y 60 -defaultsOSRD -pinDir S_AXI_RAM1_ETH left -pinY S_AXI_RAM1_ETH 0L -pinDir S_AXI_RAM0_ETH left -pinY S_AXI_RAM0_ETH 20L -pinDir M_AXI_RAM1_PCI right -pinY M_AXI_RAM1_PCI 0R -pinDir M_AXI_RAM0_PCI right -pinY M_AXI_RAM0_PCI 20R -pinDir S_AXI_ABM left -pinY S_AXI_ABM 40L -pinDir clk left -pinY clk 60L -pinDir resetn left -pinY resetn 80L -pinDir idle1 left -pinY idle1 140L -pinBusDir pci_src_addr left -pinBusY pci_src_addr 160L -pinDir idle0 left -pinY idle0 180L -pinDir load1 left -pinY load1 200L -pinDir load0 left -pinY load0 220L -pinDir load_wstrobe left -pinY load_wstrobe 240L -pinBusDir abm1_counter left -pinBusY abm1_counter 260L -pinBusDir abm0_counter left -pinBusY abm0_counter 280L -pinDir abm_ready right -pinY abm_ready 40R
+preplace inst abm_mgr_config -pg 1 -lvl 1 -x 190 -y 200 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 23 26 25 27 24 22 29 28} -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinBusDir pci_src_addr right -pinBusY pci_src_addr 20R -pinDir start0 right -pinY start0 80R -pinDir start1 right -pinY start1 60R -pinDir start_wstrobe right -pinY start_wstrobe 100R -pinDir idle0 right -pinY idle0 40R -pinDir idle1 right -pinY idle1 0R -pinBusDir abm0_counter right -pinBusY abm0_counter 140R -pinBusDir abm1_counter right -pinBusY abm1_counter 120R
+preplace netloc abm_manager_abm0_counter 1 1 1 N 340
+preplace netloc abm_manager_abm1_counter 1 1 1 N 320
+preplace netloc abm_manager_abm_ready 1 2 1 N 100
+preplace netloc abm_manager_idle0 1 1 1 N 240
+preplace netloc abm_manager_idle1 1 1 1 N 200
+preplace netloc abm_mgr_config_pci_src_addr 1 1 1 N 220
+preplace netloc abm_mgr_config_start0 1 1 1 N 280
+preplace netloc abm_mgr_config_start1 1 1 1 N 260
+preplace netloc abm_mgr_config_start_wstrobe 1 1 1 N 300
+preplace netloc pcie_axi_aclk 1 0 2 20 120 NJ
+preplace netloc source_200Mhz_resetn 1 0 2 40 140 NJ
+preplace netloc Conn1 1 0 2 NJ 100 NJ
+preplace netloc abm_manager_S_AXI_RAM0_PCI 1 2 1 NJ 80
+preplace netloc abm_manager_S_AXI_RAM1_PCI 1 2 1 NJ 60
+preplace netloc ethernet_M_AXI_RDMX0 1 0 2 NJ 80 NJ
+preplace netloc ethernet_M_AXI_RDMX1 1 0 2 NJ 60 NJ
+preplace netloc smartconnect_M07_AXI 1 0 1 NJ 200
+levelinfo -pg 1 0 190 510 700
+pagesize -pg 1 -db -bbox -sgen -180 0 880 400
+",
+   "No Loops_ScaleFactor":"1.0",
+   "No Loops_TopLeft":"-410,-143",
+   "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port S_AXI -pg 1 -lvl 0 -x 0 -y 220 -defaultsOSRD
+preplace port S_AXI_RAM1_ETH -pg 1 -lvl 0 -x 0 -y 70 -defaultsOSRD
+preplace port S_AXI_RAM0_ETH -pg 1 -lvl 0 -x 0 -y 90 -defaultsOSRD
+preplace port S_AXI_ABM -pg 1 -lvl 0 -x 0 -y 110 -defaultsOSRD
+preplace port S_AXI_RAM1_PCI -pg 1 -lvl 3 -x 730 -y 130 -defaultsOSRD
+preplace port S_AXI_RAM0_PCI -pg 1 -lvl 3 -x 730 -y 150 -defaultsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 240 -defaultsOSRD
+preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 260 -defaultsOSRD
+preplace port port-id_abm_ready -pg 1 -lvl 3 -x 730 -y 170 -defaultsOSRD
+preplace inst abm_mgr_config -pg 1 -lvl 1 -x 190 -y 260 -defaultsOSRD
+preplace inst abm_manager -pg 1 -lvl 2 -x 540 -y 170 -defaultsOSRD
+preplace netloc abm_mgr_config_0_pci_src_addr0 1 1 1 360 210n
+preplace netloc abm_mgr_config_0_pci_src_addr1 1 1 1 340 170n
+preplace netloc abm_mgr_config_0_cmd0 1 1 1 N 250
+preplace netloc abm_mgr_config_0_cmd1 1 1 1 350 190n
+preplace netloc abm_mgr_config_0_cmd_wstrobe0 1 1 1 380 270n
+preplace netloc abm_mgr_config_0_cmd_wstrobe1 1 1 1 370 210n
+preplace netloc abm_manager_idle0 1 0 3 40 10 NJ 10 710
+preplace netloc abm_manager_idle1 1 0 3 40 370 NJ 370 700
+preplace netloc pcie_axi_aclk 1 0 2 20 130 NJ
+preplace netloc source_200Mhz_resetn 1 0 2 30 150 NJ
+preplace netloc abm_manager_abm_ready 1 2 1 NJ 170
+preplace netloc smartconnect_M07_AXI 1 0 1 NJ 220
+preplace netloc ethernet_M_AXI_RDMX1 1 0 2 NJ 70 NJ
+preplace netloc ethernet_M_AXI_RDMX0 1 0 2 NJ 90 NJ
+preplace netloc abm_fetcher_ABM_AXI 1 0 2 NJ 110 NJ
+preplace netloc abm_manager_S_AXI_RAM1_PCI 1 2 1 NJ 130
+preplace netloc abm_manager_S_AXI_RAM0_PCI 1 2 1 NJ 150
+levelinfo -pg 1 0 190 540 730
+pagesize -pg 1 -db -bbox -sgen -150 0 880 380
+"
+}
+0
